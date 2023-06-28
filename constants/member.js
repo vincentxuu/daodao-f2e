@@ -53,7 +53,7 @@ export const ROLE = [
   },
 ];
 
-export const EDUCATION_STEP = [
+export const EDUCATION_STAGE = [
   {
     label: '學齡前',
     value: 'preschool',

@@ -5,11 +5,15 @@ import { Avatar, Box, IconButton, Menu, MenuItem } from '@mui/material';
 import { Group } from '@mui/icons-material';
 import { useRouter } from 'next/router';
 import useFirebase from '../../../../../../hooks/useFirebase';
+import { useDispatch, useSelector } from 'react-redux';
+
 
 const UserAvatar = ({ onCloseMenu }) => {
   const { push } = useRouter();
-  const { auth, user, signInWithFacebook, signOutWithFacebook } = useFirebase();
+  // const { auth, user, signInWithFacebook, signOutWithFacebook } = useFirebase();
   const [isOpenMenu, setIsOpenMenu] = useState(null);
+  const user = useSelector((state) => state.user);
+
   if (!user) {
     return (
       <IconButton
@@ -30,11 +34,11 @@ const UserAvatar = ({ onCloseMenu }) => {
       }}
       onClick={() => {
         onCloseMenu();
-        push('/myisland');
+        push('/profile');
       }}
     >
       <Avatar
-        alt={user?.displayName ?? ''}
+        alt={user?.name ?? ''}
         src={user?.photoURL ?? ''}
         // onClick={(event) => setIsOpenMenu(event.currentTarget)}
       />

@@ -28,21 +28,21 @@ const PartnerWrapper = styled.div`
 function Partner() {
   const router = useRouter();
   const [partnerList, setPartnerList] = useState([]);
-  useEffect(() => {
-    const db = getFirestore();
-    const colRef = collection(db, 'partnerlist');
-    getDocs(colRef).then((docsSnap) => {
-      docsSnap.forEach((doc) => {
-        setPartnerList((prevState) => [
-          ...prevState,
-          {
-            id: doc.id,
-            ...(doc.data() || {}),
-          },
-        ]);
-        console.log(doc.id, ' => ', doc.data());
-      });
-    });
+  // useEffect(() => {
+  //   const db = getFirestore();
+  //   const colRef = collection(db, 'partnerlist');
+  //   getDocs(colRef).then((docsSnap) => {
+  //     docsSnap.forEach((doc) => {
+  //       setPartnerList((prevState) => [
+  //         ...prevState,
+  //         {
+  //           id: doc.id,
+  //           ...(doc.data() || {}),
+  //         },
+  //       ]);
+  //       console.log(doc.id, ' => ', doc.data());
+  //     });
+  //   });
     // const test = collection('partnerlist').
     // console.log('test', test);
     // const docRef = doc(db, 'partnerlist', user?.uid);
@@ -62,8 +62,8 @@ function Partner() {
     //   setIsOpenLocation(data?.isOpenLocation || false);
     //   setIsOpenProfile(data?.isOpenProfile || false);
     // });
-  }, [setPartnerList]);
-  console.log('partnerList', partnerList);
+  // }, [setPartnerList]);
+  // console.log('partnerList', partnerList);
   return (
     <>
       <Banner />
@@ -93,49 +93,7 @@ function Partner() {
               background: '#fff',
             }}
           >
-            <Box sx={{ minHeight: '100vh', padding: '5%' }}>
-              找夥伴功能架構與維運中，如果你們希望加速開發的腳步的話，歡迎一起加入團隊共同協作！
-              <Box
-                sx={{
-                  margin: '20px 0 10px 0',
-                  display: 'flex',
-                  justifyContent: 'flex-start',
-                  alignItems: 'center',
-                }}
-              >
-                <Button
-                  variant="outlined"
-                  onClick={() =>
-                    window.open('https://forms.gle/if2kwAEQkeaTUgm37', '_blank')
-                  }
-                  sx={{ margin: '0 10px' }}
-                >
-                  <Typography variant="p">加入團隊</Typography>
-                </Button>
-                <Button
-                  variant="outlined"
-                  onClick={() =>
-                    window.open(
-                      'https://g0v.hackmd.io/@daodaoedu/HydZGAUYc',
-                      '_blank',
-                    )
-                  }
-                  sx={{ margin: '0 10px' }}
-                >
-                  <Typography variant="p">了解更多</Typography>
-                </Button>
-                <Button
-                  variant="outlined"
-                  onClick={() =>
-                    window.open('https://www.daoedu.tw/about', '_blank')
-                  }
-                  sx={{ margin: '0 10px' }}
-                >
-                  <Typography variant="p">關於島島</Typography>
-                </Button>
-              </Box>
-            </Box>
-            {/* <PartnerList list={partnerList} /> */}
+            <PartnerList list={partnerList} />
           </Box>
         </Box>
       </PartnerWrapper>

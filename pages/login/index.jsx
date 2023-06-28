@@ -1,15 +1,16 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useEffect } from 'react';
 import styled from '@emotion/styled';
 import Router, { useRouter } from 'next/router';
 import Script from 'next/script';
 import { Box, Typography, Button, Skeleton } from '@mui/material';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import toast from 'react-hot-toast';
-import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-import { getFirestore, doc, getDoc } from 'firebase/firestore';
 import SEOConfig from '../../shared/components/SEO';
 import Navigation from '../../shared/components/Navigation_v2';
 import Footer from '../../shared/components/Footer_v2';
+import { useDispatch } from 'react-redux';
+import { googleLogin } from '../../redux/actions/user';
+
 // import sendDataToChromeExtension from '../../utils/sendDataToChromeExtension';
 
 const HomePageWrapper = styled.div`
@@ -39,7 +40,7 @@ const ContentWrapper = styled.div`
 `;
 
 const LoginPage = () => {
-  const provider = new GoogleAuthProvider();
+  const dispatch = useDispatch();
   const router = useRouter();
   const SEOData = useMemo(
     () => ({
@@ -55,43 +56,10 @@ const LoginPage = () => {
     [router?.asPath],
   );
 
-  const onLogin = () => {
-    const auth = getAuth();
-
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        // This gives you a Google Access Token. You can use it to access the Google API.
-        // const credential = GoogleAuthProvider.credentialFromResult(result);
-        // const token = credential.accessToken;
-        // The signed-in user info.
-        // console.log('result', result);
-        const { displayName } = result.user;
-        // sendDataToChromeExtension(
-        //   'locidnghejlnnlnbglelhaflehebblei',
-        //   result.user,
-        // );
-        const db = getFirestore();
-        const docRef = doc(db, 'partnerlist', result?.user?.uid);
-        getDoc(docRef).then((docSnap) => {
-          // const isNewUser = Object.keys(docSnap.data() || {}).length === 0;
-          // if (isNewUser) {
-          toast.success(`歡迎登入！ ${displayName}`);
-          router.push('/signin');
-          // } else {
-          //   toast.success(`歡迎回來！ ${displayName}`);
-          //   router.push('/');
-          // }
-        });
-        console.log(result);
-      })
-      .catch((error) => {
-        console.log('error', error);
-        toast.error('登入失敗', {
-          style: {
-            marginTop: '70px',
-          },
-        });
-      });
+  const onLogin =  () => {
+    // const URL = `http://localhost:3000/auth/google`;
+    // window.open(URL, "_self");
+    dispatch(googleLogin())
   };
 
   return (
@@ -155,7 +123,9 @@ const LoginPage = () => {
               // toast.success('你點我做什麼？？？？');
             }}
           >
+            {/* <a href="http://localhost:3000/auth/google"> */}
             Google 登入 / 註冊
+            {/* </a> */}
           </Button>
           <Box sx={{ marginTop: '24px' }}>
             <Typography sx={{ color: '#536166', fontSize: '14px' }}>

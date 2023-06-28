@@ -111,8 +111,7 @@ const Profile = () => {
           variant="text"
           sx={BottonBack}
           onClick={() => {
-            router.push('/');
-            // router.push('/partner');
+            router.push('/partner');
           }}
         >
           <ChevronLeftIcon />

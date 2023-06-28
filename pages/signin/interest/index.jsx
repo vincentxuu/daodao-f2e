@@ -45,6 +45,8 @@ import {
 } from '../../../constants/member';
 import TipModal from '../../../components/Signin/Interest/TipModal';
 import COUNTIES from '../../../constants/countries.json';
+import { useDispatch ,useSelector} from 'react-redux';
+import { userUpdate } from '../../../redux/actions/user';
 
 const HomePageWrapper = styled.div`
   --section-height: calc(100vh - 80px);
@@ -75,10 +77,12 @@ function EditPage() {
   const router = useRouter();
   const auth = getAuth();
   const [user, isLoading] = useAuthState(auth);
-  const [interestAreaList, setInterestAreaList] = useState([]);
+  const [interestList, setInterestList] = useState([]);
   const [isLoadingSubmit, setIsLoadingSubmit] = useState(false);
   const [open, setOpen] = useState(false);
-
+  const dispatch = useDispatch();
+  const { email } = useSelector((state) => state.user);
+  
   useEffect(() => {
     if (!isLoading) {
       const db = getFirestore();
@@ -87,38 +91,51 @@ function EditPage() {
         const docRef = doc(db, 'partnerlist', user?.uid);
         getDoc(docRef).then((docSnap) => {
           const data = docSnap.data();
-          setInterestAreaList(data?.interestAreaList || []);
+          setInterestList(data?.interestAreaList || []);
         });
       }
     }
   }, [user, isLoading]);
 
+  // const onUpdateUser = (successCallback) => {
+  //   const payload = {
+  //     interestAreaList,
+  //     lastUpdateDate: dayjs().toISOString(),
+  //   };
+
+  //   const db = getFirestore();
+
+  //   const docRef = doc(db, 'partnerlist', user?.uid);
+  //   getDoc(docRef).then(() => {
+  //     setIsLoadingSubmit(true);
+  //     toast
+  //       .promise(
+  //         updateDoc(docRef, payload).then(() => {
+  //           setIsLoadingSubmit(false);
+  //         }),
+  //         {
+  //           success: '更新成功！',
+  //           error: '更新失敗',
+  //           loading: '更新中...',
+  //         },
+  //       )
+  //       .then(() => {
+  //         successCallback();
+  //       });
+  //   });
+  // };
+
   const onUpdateUser = (successCallback) => {
     const payload = {
-      interestAreaList,
+      email,
+      interestList,
       lastUpdateDate: dayjs().toISOString(),
     };
 
-    const db = getFirestore();
-
-    const docRef = doc(db, 'partnerlist', user?.uid);
-    getDoc(docRef).then(() => {
       setIsLoadingSubmit(true);
-      toast
-        .promise(
-          updateDoc(docRef, payload).then(() => {
-            setIsLoadingSubmit(false);
-          }),
-          {
-            success: '更新成功！',
-            error: '更新失敗',
-            loading: '更新中...',
-          },
-        )
-        .then(() => {
-          successCallback();
-        });
-    });
+      dispatch(userUpdate(payload))
+      setIsLoadingSubmit(false);
+      successCallback()
   };
 
   const SEOData = useMemo(
@@ -202,12 +219,12 @@ function EditPage() {
                     <Box
                       key={label}
                       onClick={() => {
-                        if (interestAreaList.includes(value)) {
-                          setInterestAreaList((state) =>
+                        if (interestList.includes(value)) {
+                          setInterestList((state) =>
                             state.filter((data) => data !== value),
                           );
                         } else {
-                          setInterestAreaList((state) => [...state, value]);
+                          setInterestList((state) => [...state, value]);
                         }
                       }}
                       sx={{
@@ -221,7 +238,7 @@ function EditPage() {
                         justifyItems: 'center',
                         alignItems: 'center',
                         cursor: 'pointer',
-                        ...(interestAreaList.includes(value)
+                        ...(interestList.includes(value)
                           ? {
                               backgroundColor: '#DEF5F5',
                               border: '1px solid #16B9B3',
@@ -267,7 +284,7 @@ function EditPage() {
                       <Typography
                         sx={{
                           margin: 'auto',
-                          ...(interestAreaList.includes(value)
+                          ...(interestList.includes(value)
                             ? {
                                 fontWeight: 700,
                               }

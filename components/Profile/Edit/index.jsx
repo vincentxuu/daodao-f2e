@@ -38,11 +38,13 @@ import Footer from '../../../shared/components/Footer_v2';
 import {
   GENDER,
   ROLE,
-  EDUCATION_STEP,
+  EDUCATION_STAGE,
   WANT_TO_DO_WITH_PARTNER,
   CATEGORIES,
 } from '../../../constants/member';
 import COUNTIES from '../../../constants/countries.json';
+import { useDispatch, useSelector } from 'react-redux';
+import { userUpdate } from '../../../redux/actions/user';
 
 const HomePageWrapper = styled.div`
   --section-height: calc(100vh - 80px);
@@ -71,107 +73,69 @@ const ContentWrapper = styled.div`
 function EditPage() {
   const router = useRouter();
   const auth = getAuth();
-  const [user, isLoading] = useAuthState(auth);
-  const [userName, setUserName] = useState('');
+  // const [user, isLoading] = useAuthState(auth);
+  const [name, setName] = useState('');
   const [photoURL, setPhotoURL] = useState('');
   const [birthDay, setBirthDay] = useState(dayjs());
   const [gender, setGender] = useState('');
   const [roleList, setRoleList] = useState([]);
-  const [wantToLearnList, setWantToLearnList] = useState([]);
-  const [interestAreaList, setInterestAreaList] = useState([]);
-  const [educationStep, setEducationStep] = useState('-1');
+  const [wantToDoList, setWantToDoList] = useState([]);
+  // const [interestList, setInterestList] = useState([]);
+  const [educationStage, setEducationStage] = useState('-1');
   const [location, setLocation] = useState('tw');
-  const [url, setUrl] = useState('');
-  const [description, setDescription] = useState('');
+  const [contactInformationList, setContactInformationList] = useState([]);
+  const [tagList, setTagList] = useState([]);
+  const [selfIntroduction, setSelfIntroduction] = useState('');
+  const [share, setShare] = useState('');
   const [isOpenLocation, setIsOpenLocation] = useState(false);
   const [isOpenProfile, setIsOpenProfile] = useState(false);
   const [isLoadingSubmit, setIsLoadingSubmit] = useState(false);
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
   console.log('user', user);
   useEffect(() => {
-    if (!isLoading) {
-      const db = getFirestore();
-      if (user?.uid) {
-        const docRef = doc(db, 'partnerlist', user?.uid);
-        getDoc(docRef).then((docSnap) => {
-          const data = docSnap.data();
-          console.log('data', data);
-          setUserName(data?.userName || user?.displayName || '');
-          setPhotoURL(data?.photoURL || user?.photoURL || '');
-          setBirthDay(dayjs(data?.birthDay) || dayjs());
-          setGender(data?.gender || '');
-          setRoleList(data?.roleList || []);
-          setWantToLearnList(data?.wantToLearnList || []);
-          setInterestAreaList(data?.interestAreaList || []);
-          setEducationStep(data?.educationStep);
-          setLocation(data?.location || '');
-          setUrl(data?.url || '');
-          setDescription(data?.description || '');
-          setIsOpenLocation(data?.isOpenLocation || false);
-          setIsOpenProfile(data?.isOpenProfile || false);
-        });
-      }
-    }
-  }, [user, isLoading]);
+    setContactInformationList(user?.contactInformationList || []);
+    setName(user?.name || '');
+    setPhotoURL(user?.photoURL || '');
+    setBirthDay(dayjs(user?.birthDay) || dayjs());
+    setGender(user?.gender || '');
+    setRoleList(user?.roleList || []);
+    setWantToDoList(user?.wantToDoList || []);
+    // setInterestList(user?.interestList || []);
+    setEducationStage(user?.educationStage);
+    setLocation(user?.location || '');
+    setSelfIntroduction(user?.selfIntroduction || '');
+    setShare(user?.share || '');
+    setIsOpenLocation(user?.isOpenLocation || false);
+    setIsOpenProfile(user?.isOpenProfile || false);
+    setTagList(user?.tagList || []);
+
+  }, [user]);
 
   const onUpdateUser = (successCallback) => {
     const payload = {
-      userName,
+      contactInformationList,
+      email: user.email,
+      name,
       photoURL,
       birthDay: birthDay.toISOString(),
       gender,
       roleList,
-      wantToLearnList,
-      interestAreaList,
-      educationStep,
+      wantToDoList,
+      educationStage,
       location,
-      url,
-      description,
+      tagList,
+      selfIntroduction,
+      share,
       isOpenLocation,
       isOpenProfile,
       lastUpdateDate: dayjs().toISOString(),
     };
 
-    const db = getFirestore();
-
-    const docRef = doc(db, 'partnerlist', user?.uid);
-    const partnerlistDocRef = doc(db, 'partnerlist', user?.uid);
-    getDoc(docRef).then((docSnap) => {
-      setIsLoadingSubmit(true);
-      if (isOpenProfile) {
-        toast
-          .promise(
-            Promise.allSettled([
-              updateDoc(docRef, payload),
-              setDoc(partnerlistDocRef, payload),
-            ]).then(() => {
-              setIsLoadingSubmit(false);
-            }),
-            {
-              success: '更新成功！',
-              error: '更新失敗',
-              loading: '更新中...',
-            },
-          )
-          .then(() => {
-            successCallback();
-          });
-      } else {
-        toast
-          .promise(
-            updateDoc(docRef, payload).then(() => {
-              setIsLoadingSubmit(false);
-            }),
-            {
-              success: '更新成功！',
-              error: '更新失敗',
-              loading: '更新中...',
-            },
-          )
-          .then(() => {
-            successCallback();
-          });
-      }
-    });
+    setIsLoadingSubmit(true);
+    dispatch(userUpdate(payload))
+    setIsLoadingSubmit(false);
+    successCallback()
   };
 
   const SEOData = useMemo(
@@ -275,11 +239,11 @@ function EditPage() {
                     marginTop: '20px',
                   }}
                 >
-                  <Typography>您的名稱 *</Typography>
+                  <Typography>名稱 *</Typography>
                   <TextField
                     sx={{ width: '100%' }}
-                    value={userName}
-                    onChange={(event) => setUserName(event.target.value)}
+                    value={name}
+                    onChange={(event) => setName(event.target.value)}
                   />
                 </Box>
                 <Box
@@ -337,9 +301,9 @@ function EditPage() {
                           cursor: 'pointer',
                           ...(gender === value
                             ? {
-                                backgroundColor: '#DEF5F5',
-                                border: '1px solid #16B9B3',
-                              }
+                              backgroundColor: '#DEF5F5',
+                              border: '1px solid #16B9B3',
+                            }
                             : {}),
                         }}
                       >
@@ -393,9 +357,9 @@ function EditPage() {
                           cursor: 'pointer',
                           ...(roleList.includes(value)
                             ? {
-                                backgroundColor: '#DEF5F5',
-                                border: '1px solid #16B9B3',
-                              }
+                              backgroundColor: '#DEF5F5',
+                              border: '1px solid #16B9B3',
+                            }
                             : {}),
                           '@media (maxWidth: 767px)': {
                             width: '100%',
@@ -408,8 +372,8 @@ function EditPage() {
                             margin: 'auto',
                             ...(roleList.includes(value)
                               ? {
-                                  fontWeight: 700,
-                                }
+                                fontWeight: 700,
+                              }
                               : {}),
                           }}
                         >
@@ -453,9 +417,9 @@ function EditPage() {
                           cursor: 'pointer',
                           ...(roleList.includes(value)
                             ? {
-                                backgroundColor: '#DEF5F5',
-                                border: '1px solid #16B9B3',
-                              }
+                              backgroundColor: '#DEF5F5',
+                              border: '1px solid #16B9B3',
+                            }
                             : {}),
                           '@media (maxWidth: 767px)': {
                             width: '100%',
@@ -468,8 +432,8 @@ function EditPage() {
                             margin: 'auto',
                             ...(roleList.includes(value)
                               ? {
-                                  fontWeight: 700,
-                                }
+                                fontWeight: 700,
+                              }
                               : {}),
                           }}
                         >
@@ -501,11 +465,11 @@ function EditPage() {
               >
                 <Typography>教育階段</Typography>
                 <Select
-                  labelId="education-step"
-                  id="education-step"
-                  value={educationStep}
+                  labelId="education-stage"
+                  id="education-stage"
+                  value={educationStage}
                   onChange={(event) => {
-                    setEducationStep(event.target.value);
+                    setEducationStage(event.target.value);
                   }}
                   // placeholder="請選擇您或孩子目前的教育階段"
                   sx={{ width: '100%' }}
@@ -513,7 +477,7 @@ function EditPage() {
                   <MenuItem disabled value="-1">
                     <em>請選擇您或孩子目前的教育階段</em>
                   </MenuItem>
-                  {EDUCATION_STEP.map(({ label, value }) => (
+                  {EDUCATION_STAGE.map(({ label, value }) => (
                     <MenuItem key={value} value={value}>
                       {label}
                     </MenuItem>
@@ -581,12 +545,12 @@ function EditPage() {
                         <Box
                           key={label}
                           onClick={() => {
-                            if (wantToLearnList.includes(value)) {
-                              setWantToLearnList((state) =>
+                            if (wantToDoList.includes(value)) {
+                              setWantToDoList((state) =>
                                 state.filter((data) => data !== value),
                               );
                             } else {
-                              setWantToLearnList((state) => [...state, value]);
+                              setWantToDoList((state) => [...state, value]);
                             }
                           }}
                           sx={{
@@ -598,11 +562,11 @@ function EditPage() {
                             justifyItems: 'center',
                             alignItems: 'center',
                             cursor: 'pointer',
-                            ...(wantToLearnList.includes(value)
+                            ...(wantToDoList.includes(value)
                               ? {
-                                  backgroundColor: '#DEF5F5',
-                                  border: '1px solid #16B9B3',
-                                }
+                                backgroundColor: '#DEF5F5',
+                                border: '1px solid #16B9B3',
+                              }
                               : {}),
                           }}
                         >
@@ -627,12 +591,12 @@ function EditPage() {
                         <Box
                           key={label}
                           onClick={() => {
-                            if (wantToLearnList.includes(value)) {
-                              setWantToLearnList((state) =>
+                            if (wantToDoList.includes(value)) {
+                              setWantToDoList((state) =>
                                 state.filter((data) => data !== value),
                               );
                             } else {
-                              setWantToLearnList((state) => [...state, value]);
+                              setWantToDoList((state) => [...state, value]);
                             }
                           }}
                           sx={{
@@ -644,11 +608,11 @@ function EditPage() {
                             justifyItems: 'center',
                             alignItems: 'center',
                             cursor: 'pointer',
-                            ...(wantToLearnList.includes(value)
+                            ...(wantToDoList.includes(value)
                               ? {
-                                  backgroundColor: '#DEF5F5',
-                                  border: '1px solid #16B9B3',
-                                }
+                                backgroundColor: '#DEF5F5',
+                                border: '1px solid #16B9B3',
+                              }
                               : {}),
                           }}
                         >
@@ -674,9 +638,13 @@ function EditPage() {
                 <TextField
                   sx={{ width: '100%' }}
                   placeholder="ex.  自學申請、學習方法、學習資源，或各種學習領域的知識"
+                  value={share}
+                  onChange={(event) => {
+                    setShare(event.target.value);
+                  }}
                 />
               </Box>
-              {/* <Box
+              <Box
                 sx={{
                   display: 'flex',
                   flexDirection: 'column',
@@ -689,13 +657,17 @@ function EditPage() {
                 <TextField
                   sx={{ width: '100%' }}
                   placeholder="搜尋或新增標籤"
+                  value={tagList}
+                  onChange={(event) => {
+                    setTagList(event.target.value);
+                  }}
                 />
                 <Typography
                   sx={{ color: '#92989A', fontWeight: 400, fontSize: '14px' }}
                 >
                   可以是學習領域、興趣等等的標籤，例如：音樂創作、程式語言、電繪、社會議題。
                 </Typography>
-              </Box> */}
+              </Box>
               <Box
                 sx={{
                   display: 'flex',
@@ -705,13 +677,13 @@ function EditPage() {
                   marginTop: '20px',
                 }}
               >
-                <Typography>個人網站或社群</Typography>
+                <Typography>社群軟體</Typography>
                 <TextField
                   sx={{ width: '100%' }}
                   placeholder="https://"
-                  value={url}
+                  value={contactInformationList}
                   onChange={(event) => {
-                    setUrl(event.target.value);
+                    setContactInformationList(event.target.value);
                   }}
                 />
               </Box>
@@ -734,9 +706,9 @@ function EditPage() {
                     border: '1px solid #DBDBDB',
                   }}
                   placeholder="寫下關於你的資訊，讓其他島民更認識你！也可以多描述想和夥伴一起做的事喔！"
-                  value={description}
+                  value={selfIntroduction}
                   onChange={(event) => {
-                    setDescription(event.target.value);
+                    setSelfIntroduction(event.target.value);
                   }}
                 />
               </Box>
@@ -819,7 +791,23 @@ function EditPage() {
                   width: '100%',
                   height: '40px',
                   borderRadius: '20px',
+                  color: '#ffff',
+                  bgcolor: '#16B9B3',
                   mr: '8px',
+                }}
+                variant="contained"
+                onClick={() => {
+                  router.push('/profile/myprofile');
+                }}
+              >
+                查看我的頁面
+              </Button>
+              <Button
+                sx={{
+                  width: '100%',
+                  height: '40px',
+                  borderRadius: '20px',
+                  ml: '8px',
                 }}
                 variant="outlined"
                 disabled={isLoadingSubmit}
@@ -828,22 +816,6 @@ function EditPage() {
                 }}
               >
                 儲存資料
-              </Button>
-              <Button
-                sx={{
-                  width: '100%',
-                  height: '40px',
-                  borderRadius: '20px',
-                  color: '#ffff',
-                  bgcolor: '#16B9B3',
-                  ml: '8px',
-                }}
-                variant="contained"
-                onClick={() => {
-                  router.push('/profile/myprofile');
-                }}
-              >
-                查看我的頁面
               </Button>
             </Box>
           </ContentWrapper>

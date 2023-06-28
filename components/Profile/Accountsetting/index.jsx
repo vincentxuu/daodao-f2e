@@ -8,7 +8,10 @@ import {
   FormControlLabel,
 } from '@mui/material';
 import { useRouter } from 'next/router';
-import useFirebase from '../../../hooks/useFirebase';
+import { useDispatch, useSelector } from 'react-redux';
+import { userLogout,userUpdate } from '../../../redux/actions/user';
+import { useState } from 'react';
+import { useEffect } from 'react';
 
 const TypographyStyle = {
   fontFamily: 'Noto Sans TC',
@@ -21,7 +24,25 @@ const TypographyStyle = {
 
 const AccountSetting = () => {
   const { push } = useRouter();
-  const { auth, user, signInWithFacebook, signOutWithGoogle } = useFirebase();
+  const dispatch = useDispatch();
+  const [isSubscribeEmail, setIsSubscribeEmail] = useState(false);
+  const user = useSelector((state) => state.user);
+
+  const onUpdateUser = () => {
+    const payload = {
+      email: user.email,
+      isSubscribeEmail
+    };
+    dispatch(userUpdate(payload))
+  };
+
+  const logout = async () => {
+    dispatch(userLogout())
+  }
+  
+  useEffect(() => {
+    setIsSubscribeEmail(user?.isSubscribeEmail || false);
+  }, [user]);
   return (
     <Box
       sx={{
@@ -54,7 +75,7 @@ const AccountSetting = () => {
             disabled
             sx={{ width: '100%', margin: '8px 0 30px 0' }}
           >
-            daodao@gmail.com
+            {user.email}
           </Button>
         </Box>
         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
@@ -76,9 +97,17 @@ const AccountSetting = () => {
           <FormControlLabel
             sx={{
               marginTop: '20px',
-              color: '#536166',
             }}
-            control={<Checkbox />}
+            control={
+              // eslint-disable-next-line react/jsx-wrap-multilines
+              <Checkbox
+                checked={isSubscribeEmail}
+                onChange={(event) =>{
+                  setIsSubscribeEmail(event.target.checked);
+                  // onUpdateUser();//待處理取消訂閱
+                }}
+              />
+            }
             label="訂閱電子報與島島阿學的新資訊"
           />
         </Box>
@@ -93,8 +122,8 @@ const AccountSetting = () => {
               backgroundColor: 'white',
             }}
             onClick={() => {
-              signOutWithGoogle();
-              push('/');
+              logout();
+              // push('/');
             }}
           >
             登出

@@ -44,6 +44,8 @@ import {
   CATEGORIES,
 } from '../../constants/member';
 import COUNTIES from '../../constants/countries.json';
+import { useDispatch ,useSelector} from 'react-redux';
+import { userLogin,userUpdate } from '../../redux/actions/user';
 
 const HomePageWrapper = styled.div`
   --section-height: calc(100vh - 80px);
@@ -79,24 +81,36 @@ function EditPage() {
   const [birthDay, setBirthDay] = useState(dayjs());
   const [gender, setGender] = useState('');
   const [roleList, setRoleList] = useState([]);
+  const dispatch = useDispatch();
+  const { email } = useSelector((state) => state.user);
+  console.log("email:",email)
+
+  // useEffect(() => {
+  //   if (!isLoading) {
+  //     const db = getFirestore();
+  //     if (user?.uid) {
+  //       // console.log('auth.currentUser', auth.currentUser);
+  //       const docRef = doc(db, 'partnerlist', user?.uid);
+  //       getDoc(docRef).then((docSnap) => {
+  //         const data = docSnap.data();
+  //         setBirthDay(dayjs(data?.birthDay) || dayjs());
+  //         setGender(data?.gender || '');
+  //         setRoleList(data?.roleList || []);
+  //       });
+  //     }
+  //   }
+  // }, [user, isLoading]);
+
   useEffect(() => {
-    if (!isLoading) {
-      const db = getFirestore();
-      if (user?.uid) {
-        // console.log('auth.currentUser', auth.currentUser);
-        const docRef = doc(db, 'partnerlist', user?.uid);
-        getDoc(docRef).then((docSnap) => {
-          const data = docSnap.data();
-          setBirthDay(dayjs(data?.birthDay) || dayjs());
-          setGender(data?.gender || '');
-          setRoleList(data?.roleList || []);
-        });
-      }
-    }
-  }, [user, isLoading]);
+    setTimeout(() => {
+      dispatch(userLogin())
+      console.log("userLogin")
+    }, "2000")
+  }, [])
 
   const onUpdateUser = (successCallback) => {
     const payload = {
+      email,
       birthDay: birthDay.toISOString(),
       gender,
       roleList,
@@ -104,26 +118,10 @@ function EditPage() {
       isSubscribeEmail,
     };
 
-    const db = getFirestore();
-
-    const docRef = doc(db, 'partnerlist', user?.uid);
-    getDoc(docRef).then(() => {
       setIsLoadingSubmit(true);
-      toast
-        .promise(
-          setDoc(docRef, payload).then(() => {
-            setIsLoadingSubmit(false);
-          }),
-          {
-            success: '更新成功！',
-            error: '更新失敗',
-            loading: '更新中...',
-          },
-        )
-        .then(() => {
-          successCallback();
-        });
-    });
+      dispatch(userUpdate(payload))
+      setIsLoadingSubmit(false);
+      successCallback()
   };
   const SEOData = useMemo(
     () => ({
@@ -215,9 +213,9 @@ function EditPage() {
                           cursor: 'pointer',
                           ...(gender === value
                             ? {
-                                backgroundColor: '#DEF5F5',
-                                border: '1px solid #16B9B3',
-                              }
+                              backgroundColor: '#DEF5F5',
+                              border: '1px solid #16B9B3',
+                            }
                             : {}),
                         }}
                       >
@@ -272,9 +270,9 @@ function EditPage() {
                           cursor: 'pointer',
                           ...(roleList.includes(value)
                             ? {
-                                backgroundColor: '#DEF5F5',
-                                border: '1px solid #16B9B3',
-                              }
+                              backgroundColor: '#DEF5F5',
+                              border: '1px solid #16B9B3',
+                            }
                             : {}),
                           '@media (max-width: 767px)': {
                             height: '100% auto',
@@ -319,8 +317,8 @@ function EditPage() {
                             marginTop: '10px',
                             ...(roleList.includes(value)
                               ? {
-                                  fontWeight: 700,
-                                }
+                                fontWeight: 700,
+                              }
                               : {}),
                           }}
                         >

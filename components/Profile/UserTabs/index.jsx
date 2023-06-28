@@ -6,6 +6,9 @@ import TabPanel from '@mui/lab/TabPanel';
 import { useState } from 'react';
 import { WANT_TO_DO_WITH_PARTNER } from '../../../constants/member';
 import { mapToTable } from '../../../utils/helper';
+import { useDispatch, useSelector } from 'react-redux';
+
+
 
 const UserTabs = ({
   description = '',
@@ -16,6 +19,8 @@ const UserTabs = ({
   // console.log('wantToLearnList', wantToLearnList);
 
   const [value, setValue] = useState('1');
+  const user = useSelector((state) => state.user);
+
   if (isLoading) {
     return (
       <Box
@@ -239,7 +244,9 @@ const UserTabs = ({
               <Typography sx={{ color: '#293A3D', fontWeight: 500 }}>
                 可分享
               </Typography>
-              <Typography sx={{ marginLeft: '12px' }}>-</Typography>
+              <Typography sx={{ marginLeft: '12px' }}>
+                {user.share || '-'}
+              </Typography>
             </Box>
             <Divider sx={{ color: '#F3F3F3', margin: '6px 0' }} />
             <Box>
@@ -247,7 +254,7 @@ const UserTabs = ({
                 想一起
               </Typography>
               <Typography sx={{ marginLeft: '12px' }}>
-                {wantToLearnList
+                {user.wantToDoList
                   .map((item) => mapToTable(WANT_TO_DO_WITH_PARTNER)[item])
                   .join(', ') || '-'}
               </Typography>
@@ -255,9 +262,11 @@ const UserTabs = ({
             <Divider sx={{ color: '#F3F3F3', margin: '6px 0' }} />
             <Box>
               <Typography sx={{ color: '#293A3D', fontWeight: 500 }}>
-                個人網站
+                社群軟體
               </Typography>
-              <Typography sx={{ marginLeft: '12px' }}>-</Typography>
+              <Typography sx={{ marginLeft: '12px' }}>
+                {user.contactInformationList[0] || '-'}
+              </Typography>
             </Box>
             <Divider sx={{ color: '#F3F3F3', margin: '6px 0' }} />
             <Box>
@@ -265,7 +274,7 @@ const UserTabs = ({
                 簡介
               </Typography>
               <Typography component="p" sx={{}}>
-                {description || '-'}
+                {user.selfIntroduction || '-'}
               </Typography>
             </Box>
           </Box>

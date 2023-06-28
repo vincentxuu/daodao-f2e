@@ -5,6 +5,9 @@ import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import moment from 'moment/moment';
 import { useRouter } from 'next/router';
 import LOCATION from '../../../constants/countries.json';
+import { EDUCATION_STAGE, ROLE } from '../../../constants/member';
+import { useDispatch, useSelector } from 'react-redux';
+
 
 const BottonEdit = {
   color: '#536166',
@@ -58,6 +61,8 @@ function UserCard({
 }) {
   console.log(educationStepLabel);
   const router = useRouter();
+  const user = useSelector((state) => state.user);
+
   if (isLoading) {
     return (
       <Box
@@ -135,7 +140,7 @@ function UserCard({
       >
         <LazyLoadImage
           alt="login"
-          src={photoURL || ''}
+          src={user.photoURL || ''}
           height={80}
           width={80}
           effect="opacity"
@@ -179,7 +184,7 @@ function UserCard({
               margin: '10px 8px 0px 0px ',
             }}
           >
-            {userName || '-'}
+            {user.name || '-'}
           </Typography>
           <Button
             variant="contained"
@@ -191,10 +196,14 @@ function UserCard({
               margin: '0px 0px 5px 8px ',
             }}
           >
-            {educationStepLabel}
+            {EDUCATION_STAGE.find(
+              (item) => item.value === user.educationStage
+            )?.label || '-'}
           </Button>
           <Typography component="p" sx={{ color: '#92989A' }}>
-            -
+            {ROLE.find(
+              (item) => item.value === user.roleList[0]
+            )?.label || '-'}
           </Typography>
           <Typography
             sx={{
@@ -206,7 +215,7 @@ function UserCard({
           >
             <LocationOnOutlinedIcon sx={{ marginRight: '10px' }} />{' '}
             {LOCATION.find(
-              (item) => item.alpha2 === location || item.alpha3 === location,
+              (item) => item.alpha2 === user.location || item.alpha3 === location,
             )?.name || '-'}
           </Typography>
         </Box>
@@ -224,7 +233,7 @@ function UserCard({
             '@media (max-width: 767px)': { display: 'flex', flexFlow: 'wrap' },
           }}
         >
-          {tagList.map((tag) => (
+          {user.tagList.map((tag) => (
             <Tag key={tag} label={tag} />
           ))}
         </Box>
@@ -233,6 +242,7 @@ function UserCard({
           sx={{ fontSize: '12px', color: '#92989A', marginTop: '5px' }}
         >
           {moment(new Date() - 500 * 60 * 60).fromNow()}
+          {/* {user.date} */}
         </Typography>
       </Box>
     </Box>
