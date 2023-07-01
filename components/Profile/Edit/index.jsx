@@ -1,6 +1,8 @@
 import React, { useMemo, useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
+import { useDispatch, useSelector } from 'react-redux';
+import { userUpdate } from '../../../redux/actions/user';
 import Script from 'next/script';
 import {
   Box,
@@ -43,8 +45,7 @@ import {
   CATEGORIES,
 } from '../../../constants/member';
 import COUNTIES from '../../../constants/countries.json';
-import { useDispatch, useSelector } from 'react-redux';
-import { userUpdate } from '../../../redux/actions/user';
+
 
 const HomePageWrapper = styled.div`
   --section-height: calc(100vh - 80px);

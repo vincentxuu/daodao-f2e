@@ -1,6 +1,8 @@
 import React, { useMemo, useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
+import { useDispatch, useSelector } from 'react-redux';
+import { userLogin, userUpdate } from '../../redux/actions/user';
 import Script from 'next/script';
 import {
   Box,
@@ -39,13 +41,12 @@ import Footer from '../../shared/components/Footer_v2';
 import {
   GENDER,
   ROLE,
-  EDUCATION_STEP,
+  EDUCATION_STAGE,
   WANT_TO_DO_WITH_PARTNER,
   CATEGORIES,
 } from '../../constants/member';
 import COUNTIES from '../../constants/countries.json';
-import { useDispatch ,useSelector} from 'react-redux';
-import { userLogin,userUpdate } from '../../redux/actions/user';
+
 
 const HomePageWrapper = styled.div`
   --section-height: calc(100vh - 80px);
@@ -83,7 +84,7 @@ function EditPage() {
   const [roleList, setRoleList] = useState([]);
   const dispatch = useDispatch();
   const { email } = useSelector((state) => state.user);
-  console.log("email:",email)
+  console.log("email:", email)
 
   // useEffect(() => {
   //   if (!isLoading) {
@@ -118,10 +119,10 @@ function EditPage() {
       isSubscribeEmail,
     };
 
-      setIsLoadingSubmit(true);
-      dispatch(userUpdate(payload))
-      setIsLoadingSubmit(false);
-      successCallback()
+    setIsLoadingSubmit(true);
+    dispatch(userUpdate(payload))
+    setIsLoadingSubmit(false);
+    successCallback()
   };
   const SEOData = useMemo(
     () => ({

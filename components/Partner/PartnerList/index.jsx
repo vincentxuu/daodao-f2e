@@ -1,10 +1,9 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from '@emotion/styled';
 import { Box, Typography, Divider, Skeleton } from '@mui/material';
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import PartnerCard from './PartnerCard';
-import { useState } from 'react';
 
 const LIST = [
   {

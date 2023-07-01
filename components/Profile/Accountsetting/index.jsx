@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Box,
   Typography,
@@ -9,9 +9,7 @@ import {
 } from '@mui/material';
 import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
-import { userLogout,userUpdate } from '../../../redux/actions/user';
-import { useState } from 'react';
-import { useEffect } from 'react';
+import { userLogout, userUpdate } from '../../../redux/actions/user';
 
 const TypographyStyle = {
   fontFamily: 'Noto Sans TC',
@@ -39,7 +37,7 @@ const AccountSetting = () => {
   const logout = async () => {
     dispatch(userLogout())
   }
-  
+
   useEffect(() => {
     setIsSubscribeEmail(user?.isSubscribeEmail || false);
   }, [user]);
@@ -102,7 +100,7 @@ const AccountSetting = () => {
               // eslint-disable-next-line react/jsx-wrap-multilines
               <Checkbox
                 checked={isSubscribeEmail}
-                onChange={(event) =>{
+                onChange={(event) => {
                   setIsSubscribeEmail(event.target.checked);
                   // onUpdateUser();//待處理取消訂閱
                 }}

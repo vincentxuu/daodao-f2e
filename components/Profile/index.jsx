@@ -73,7 +73,7 @@ const Profile = () => {
     [router?.asPath],
   );
 
-  // const tagList = interestAreaList.map((item) => mapToTable(CATEGORIES)[item]);
+  const tagList = interestAreaList.map((item) => mapToTable(CATEGORIES)[item]);
 
   return (
     <Box
@@ -118,17 +118,17 @@ const Profile = () => {
           返回
         </Button>
         <UserCard
-          isLoading={isLoading}
-          tagList={tagList}
-          photoURL={photoURL}
-          userName={userName}
-          location={location}
+        // isLoading={isLoading}
+        // tagList={tagList}
+        // photoURL={photoURL}
+        // userName={userName}
+        // location={location}
         />
       </Box>
       <UserTabs
-        isLoading={isLoading}
-        description={description}
-        wantToLearnList={wantToLearnList}
+      // isLoading={isLoading}
+      // description={description}
+      // wantToLearnList={wantToLearnList}
       />
       <Button
         sx={{
@@ -148,4 +148,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default  Profile;

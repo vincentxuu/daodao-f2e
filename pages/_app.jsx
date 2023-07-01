@@ -13,7 +13,6 @@ import storeFactory from '../redux/store';
 import { initGA, logPageView } from '../utils/analytics';
 import Mode from '../shared/components/Mode';
 import 'regenerator-runtime/runtime'; // Speech.js
-import { useState } from 'react';
 
 const store = storeFactory();
 const firebaseConfig = {

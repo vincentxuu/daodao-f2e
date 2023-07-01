@@ -8,7 +8,6 @@ import {
   CATEGORIES, ROLE
 } from '../../../../constants/member';
 import { mapToTable } from '../../../../utils/helper';
-import { useDispatch, useSelector } from 'react-redux';
 import LOCATION from '../../../../constants/countries.json';
 
 

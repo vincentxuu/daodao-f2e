@@ -39,13 +39,13 @@ import Footer from '../../../shared/components/Footer_v2';
 import {
   GENDER,
   ROLE,
-  EDUCATION_STEP,
+  EDUCATION_STAGE,
   WANT_TO_DO_WITH_PARTNER,
   CATEGORIES,
 } from '../../../constants/member';
 import TipModal from '../../../components/Signin/Interest/TipModal';
 import COUNTIES from '../../../constants/countries.json';
-import { useDispatch ,useSelector} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { userUpdate } from '../../../redux/actions/user';
 
 const HomePageWrapper = styled.div`
@@ -82,7 +82,7 @@ function EditPage() {
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
   const { email } = useSelector((state) => state.user);
-  
+
   useEffect(() => {
     if (!isLoading) {
       const db = getFirestore();
@@ -132,10 +132,10 @@ function EditPage() {
       lastUpdateDate: dayjs().toISOString(),
     };
 
-      setIsLoadingSubmit(true);
-      dispatch(userUpdate(payload))
-      setIsLoadingSubmit(false);
-      successCallback()
+    setIsLoadingSubmit(true);
+    dispatch(userUpdate(payload))
+    setIsLoadingSubmit(false);
+    successCallback()
   };
 
   const SEOData = useMemo(
@@ -240,9 +240,9 @@ function EditPage() {
                         cursor: 'pointer',
                         ...(interestList.includes(value)
                           ? {
-                              backgroundColor: '#DEF5F5',
-                              border: '1px solid #16B9B3',
-                            }
+                            backgroundColor: '#DEF5F5',
+                            border: '1px solid #16B9B3',
+                          }
                           : {}),
                         '@media (max-width: 767px)': {
                           height: '100% auto',
@@ -286,8 +286,8 @@ function EditPage() {
                           margin: 'auto',
                           ...(interestList.includes(value)
                             ? {
-                                fontWeight: 700,
-                              }
+                              fontWeight: 700,
+                            }
                             : {}),
                         }}
                       >
