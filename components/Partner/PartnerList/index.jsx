@@ -1,9 +1,10 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import styled from '@emotion/styled';
 import { Box, Typography, Divider, Skeleton } from '@mui/material';
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import PartnerCard from './PartnerCard';
+import { useState } from 'react';
 
 const LIST = [
   {
@@ -48,7 +49,37 @@ const LIST = [
   },
 ];
 
-function PartnerList({ list = [] }) {
+
+
+function PartnerList() {
+  const [list, setList] = useState([]);
+
+  const userURL = `http://localhost:3000/user/all_User`;
+
+  const fetchData = () => {
+    fetch(userURL, {
+      method: 'GET',
+      credentials: "include",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Credentials": true,
+      }
+    })
+      .then((res) => res.json())
+      .then(response => {
+        console.log(response);
+        setList(response)
+      }).catch(err => {
+        console.log(err);
+      })
+  }
+
+  useEffect(() => {
+    fetchData()
+  }, [])
+
+
   return (
     <Box sx={{ minHeight: '100vh', padding: '5%' }}>
       <Box
@@ -61,21 +92,25 @@ function PartnerList({ list = [] }) {
       >
         {list.map(
           ({
-            id,
-            userName,
+            _id,
+            name,
             photoURL,
-            subTitle,
-            wantToLearnList,
-            interestAreaList,
+            roleList,
+            location,
+            tagList,
+            share,
+            wantToDoList
           }) => (
             <PartnerCard
-              key={`${id}-${userName}`}
-              id={id}
+              key={`${_id}-${name}`}
+              id={_id}
               image={photoURL}
-              name={userName}
-              subTitle={subTitle}
-              canShare={wantToLearnList}
-              canTogether={interestAreaList}
+              name={name}
+              roleList={roleList}
+              location={location}
+              tagList={tagList}
+              share={share}
+              wantToDoList={wantToDoList}
             />
           ),
         )}

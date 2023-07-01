@@ -40,24 +40,24 @@ const Profile = () => {
   const [isLoading, setIsLoading] = useState(isLoadingUser);
   const [open, setOpen] = useState(false);
 
-  useLayoutEffect(() => {
-    const db = getFirestore();
-    if (!isLoadingUser && user?.uid) {
-      const docRef = doc(db, 'partnerlist', user?.uid || '');
-      getDoc(docRef).then((docSnap) => {
-        const data = docSnap.data();
-        console.log('data', data);
-        setUserName(data?.userName || '');
-        setPhotoURL(data?.photoURL || '');
-        setDescription(data?.description || '');
-        setWantToLearnList(data?.wantToLearnList || []);
-        setInterestAreaList(data?.interestAreaList || []);
-        setLocation(data?.location || '');
-        setIsLoading(false);
-      });
-    }
-    console.log(description);
-  }, [user, isLoadingUser]);
+  // useLayoutEffect(() => {
+  //   const db = getFirestore();
+  //   if (!isLoadingUser && user?.uid) {
+  //     const docRef = doc(db, 'partnerlist', user?.uid || '');
+  //     getDoc(docRef).then((docSnap) => {
+  //       const data = docSnap.data();
+  //       console.log('data', data);
+  //       setUserName(data?.userName || '');
+  //       setPhotoURL(data?.photoURL || '');
+  //       setDescription(data?.description || '');
+  //       setWantToLearnList(data?.wantToLearnList || []);
+  //       setInterestAreaList(data?.interestAreaList || []);
+  //       setLocation(data?.location || '');
+  //       setIsLoading(false);
+  //     });
+  //   }
+  //   console.log(description);
+  // }, [user, isLoadingUser]);
 
   const SEOData = useMemo(
     () => ({
@@ -73,7 +73,7 @@ const Profile = () => {
     [router?.asPath],
   );
 
-  const tagList = interestAreaList.map((item) => mapToTable(CATEGORIES)[item]);
+  // const tagList = interestAreaList.map((item) => mapToTable(CATEGORIES)[item]);
 
   return (
     <Box

@@ -99,6 +99,7 @@ function* userUpdate(action) {
 }
 
 
+
 function* userSaga() {
   yield takeEvery('CHECK_USER_ACCOUNT', checkUserStatus);
   yield takeEvery('GOOGLE_LOGIN', googleLogin);

@@ -27,16 +27,19 @@ const UserAvatar = () => {
     );
   }
   return (
-    <IconButton sx={{ margin: '0 10px' }}>
-      <Avatar
-        alt={user?.name ?? ''}
-        src={user?.photoURL ?? ''}
-        // onClick={(event) => setIsOpenMenu(event.currentTarget)}
+    <>
+      <IconButton
         onClick={() => {
           setIsOpenMenu(false);
           push('/profile');
         }}
-      />
+      >
+        <Avatar 
+          alt={user?.name || ''}
+          src={user?.photoURL || ''}
+        />
+      </IconButton>
+
       <Menu
         id="user-menu"
         anchorEl={isOpenMenu}
@@ -69,7 +72,7 @@ const UserAvatar = () => {
           登出
         </MenuItem>
       </Menu>
-    </IconButton>
+    </>
   );
 };
 

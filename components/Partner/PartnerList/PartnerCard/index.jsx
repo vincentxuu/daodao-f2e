@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import styled from '@emotion/styled';
-import { Box, Typography, Divider, Skeleton } from '@mui/material';
+import { Box, Typography, Divider, Skeleton, Chip } from '@mui/material';
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import {
@@ -9,18 +9,46 @@ import {
 } from '../../../../constants/member';
 import { mapToTable } from '../../../../utils/helper';
 import { useDispatch, useSelector } from 'react-redux';
+import LOCATION from '../../../../constants/countries.json';
+
 
 
 const WANT_TO_DO_WITH_PARTNER_TABLE = mapToTable(WANT_TO_DO_WITH_PARTNER);
+
+function Tag({ label }) {
+  return (
+    <Chip
+      label={label}
+      value={label}
+      sx={{
+        backgroundColor: '#fff',
+        opacity: '80%',
+        cursor: 'pointer',
+        margin: '5px',
+        whiteSpace: 'nowrap',
+        fontWeight: 500,
+        fontSize: '16px',
+        bgcolor: 'rgb(219, 237, 219)',
+        '&:hover': {
+          opacity: '100%',
+          backgroundColor: '#fff',
+          transition: 'transform 0.4s',
+        },
+      }}
+    />
+  );
+}
 function PartnerCard({
-  id,
-  image,
+  _id,
   name,
-  subTitle,
-  canShare = [],
-  canTogether = [],
+  image,
+  photoURL,
+  roleList,
+  location,
+  tagList,
+  share,
+  wantToDoList
 }) {
-  const user = useSelector((state) => state.user);
   return (
     <Box
       sx={{
@@ -45,7 +73,7 @@ function PartnerCard({
           >
             <LazyLoadImage
               alt="login"
-              src={user.photoURL}
+              src={image}
               height={50}
               width={50}
               effect="opacity"
@@ -86,14 +114,14 @@ function PartnerCard({
                 // href={`/partner/${id}`}
                 sx={{ color: '#536166', fontSize: '16px', fontWeight: 500 }}
               >
-                {user.name}
+                {name}
               </Typography>
               <Typography
                 component="p"
                 sx={{ color: '#92989A', fontWeight: 400, fontSize: '14px' }}
               >
                 {ROLE.find(
-                  (item) => item.value === user.roleList[0]
+                  (item) => item.value === roleList[0]
                 )?.label || '-'}
               </Typography>
               <Typography
@@ -106,13 +134,13 @@ function PartnerCard({
               >
                 <LocationOnOutlinedIcon sx={{ marginRight: '10px' }} />{' '}
                 {LOCATION.find(
-                  (item) => item.alpha2 === user.location || item.alpha3 === location,
+                  (item) => item.alpha2 === location || item.alpha3 === location,
                 )?.name || '-'}
               </Typography>
             </Box>
           </Box>
           <Box sx={{ marginTop: '24px' }}>
-            {user.tagList.map((tag) => (
+            {tagList.map((tag) => (
               <Tag key={tag} label={tag} />
             ))}
           </Box>
@@ -123,7 +151,7 @@ function PartnerCard({
               可分享
             </Typography>
             <Typography sx={{ marginLeft: '12px', color: '#536166' }}>
-              {user.share || '-'}
+              {share || '-'}
             </Typography>
           </Box>
           <Box>
@@ -131,7 +159,7 @@ function PartnerCard({
               想一起
             </Typography>
             <Typography sx={{ marginLeft: '12px', color: '#536166' }}>
-              {user.wantToDoList
+              {wantToDoList
                 .map((item) => mapToTable(WANT_TO_DO_WITH_PARTNER)[item])
                 .join(', ') || '-'}
             </Typography>

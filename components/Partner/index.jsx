@@ -43,25 +43,25 @@ function Partner() {
   //       console.log(doc.id, ' => ', doc.data());
   //     });
   //   });
-    // const test = collection('partnerlist').
-    // console.log('test', test);
-    // const docRef = doc(db, 'partnerlist', user?.uid);
-    // getDoc(docRef).then((docSnap) => {
-    //   const data = docSnap.data();
-    //   setUserName(data?.userName || '');
-    //   setPhotoURL(data?.photoURL || '');
-    //   setBirthDay(dayjs(data?.birthDay) || dayjs());
-    //   setGender(data?.gender || '');
-    //   setRoleList(data?.roleList || []);
-    //   setWantToLearnList(data?.wantToLearnList || []);
-    //   setInterestAreaList(data?.interestAreaList || []);
-    //   setEducationStep(data?.educationStep);
-    //   setLocation(data?.location || '');
-    //   setUrl(data?.url || '');
-    //   setDescription(data?.description || '');
-    //   setIsOpenLocation(data?.isOpenLocation || false);
-    //   setIsOpenProfile(data?.isOpenProfile || false);
-    // });
+  // const test = collection('partnerlist').
+  // console.log('test', test);
+  // const docRef = doc(db, 'partnerlist', user?.uid);
+  // getDoc(docRef).then((docSnap) => {
+  //   const data = docSnap.data();
+  //   setUserName(data?.userName || '');
+  //   setPhotoURL(data?.photoURL || '');
+  //   setBirthDay(dayjs(data?.birthDay) || dayjs());
+  //   setGender(data?.gender || '');
+  //   setRoleList(data?.roleList || []);
+  //   setWantToLearnList(data?.wantToLearnList || []);
+  //   setInterestAreaList(data?.interestAreaList || []);
+  //   setEducationStep(data?.educationStep);
+  //   setLocation(data?.location || '');
+  //   setUrl(data?.url || '');
+  //   setDescription(data?.description || '');
+  //   setIsOpenLocation(data?.isOpenLocation || false);
+  //   setIsOpenProfile(data?.isOpenProfile || false);
+  // });
   // }, [setPartnerList]);
   // console.log('partnerList', partnerList);
   return (

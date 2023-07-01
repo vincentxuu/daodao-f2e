@@ -3,7 +3,11 @@ import styled from '@emotion/styled';
 import Link from 'next/link';
 import { Typography } from '@mui/material';
 import useFirebase from '../../../../../hooks/useFirebase';
-import UserAvatar from './UserAvatar';
+// import UserAvatar from './UserAvatar';
+import dynamic from "next/dynamic";
+const UserAvatar = dynamic(import("./UserAvatar"), { ssr: false });
+
+
 // import { useAuthState } from "react-firebase-hooks/auth";
 // import { signInWithPopup } from "firebase/auth";
 // import { useDispatch, useSelector } from "react-redux";
@@ -51,7 +55,6 @@ const SubListWrapper = styled.div`
 
 const SubList = () => {
   // const dispatch = useDispatch();
-  const { auth, user } = useFirebase();
 
   return (
     <SubListWrapper>
@@ -64,7 +67,7 @@ const SubList = () => {
           </Link>
         </li>
         <li>
-          <UserAvatar user={user} />
+          <UserAvatar />
         </li>
       </LinkListWrapper>
     </SubListWrapper>

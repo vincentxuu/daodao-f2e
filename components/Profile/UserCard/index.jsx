@@ -59,7 +59,6 @@ function UserCard({
   userName,
   location,
 }) {
-  console.log(educationStepLabel);
   const router = useRouter();
   const user = useSelector((state) => state.user);
 
@@ -215,7 +214,7 @@ function UserCard({
           >
             <LocationOnOutlinedIcon sx={{ marginRight: '10px' }} />{' '}
             {LOCATION.find(
-              (item) => item.alpha2 === user.location || item.alpha3 === location,
+              (item) => item.alpha2 === user.location || item.alpha3 === user.location,
             )?.name || '-'}
           </Typography>
         </Box>
