@@ -19,7 +19,7 @@ function* checkUserStatus() {
 }
 
 function* googleLogin() {
-  const URL = `https://daodao-server.onrender.com/auth/google`;
+  const URL = `http://localhost:3000/auth/google`;
   try {
      yield window.open(URL, "_self");
   } catch (error) {
@@ -28,7 +28,7 @@ function* googleLogin() {
 }
 
 function* userLogin() {
-  const userURL = `https://daodao-server.onrender.com/user/current_user`;
+  const userURL = `http://localhost:3000/user/current_user`;
   try {
     const userData = yield fetch(userURL, {
       method: 'GET',
@@ -55,7 +55,7 @@ function* userLogin() {
 }
 
 function* userLogout() {
-  const URL = `https://daodao-server.onrender.com/user/logout`;
+  const URL = `http://localhost:3000/user/logout`;
   try {
     yield fetch(URL, {
       method: 'GET',
@@ -74,7 +74,7 @@ function* userLogout() {
 }
 
 function* userUpdate(action) {
-  const URL = `https://daodao-server.onrender.com/user/update`;
+  const URL = `http://localhost:3000/user/update`;
   const { body } = action.payload;
   console.log("body:",body)
   try {

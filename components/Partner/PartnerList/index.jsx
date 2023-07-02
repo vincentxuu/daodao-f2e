@@ -51,7 +51,7 @@ const LIST = [
 function PartnerList() {
   const [list, setList] = useState([]);
 
-  const userURL = `  https://daodao-server.onrender.com/user/all_User`;
+  const userURL = `http://localhost:3000/user/all_User`;
   const fetchData = () => {
     fetch(userURL, {
       method: 'GET',
