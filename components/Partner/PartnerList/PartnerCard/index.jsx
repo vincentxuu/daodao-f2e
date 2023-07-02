@@ -5,12 +5,11 @@ import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import {
   WANT_TO_DO_WITH_PARTNER,
-  CATEGORIES, ROLE
+  CATEGORIES,
+  ROLE,
 } from '../../../../constants/member';
 import { mapToTable } from '../../../../utils/helper';
 import LOCATION from '../../../../constants/countries.json';
-
-
 
 const WANT_TO_DO_WITH_PARTNER_TABLE = mapToTable(WANT_TO_DO_WITH_PARTNER);
 
@@ -46,7 +45,7 @@ function PartnerCard({
   location,
   tagList,
   share,
-  wantToDoList
+  wantToDoList,
 }) {
   return (
     <Box
@@ -119,9 +118,7 @@ function PartnerCard({
                 component="p"
                 sx={{ color: '#92989A', fontWeight: 400, fontSize: '14px' }}
               >
-                {ROLE.find(
-                  (item) => item.value === roleList[0]
-                )?.label || '-'}
+                {ROLE.find((item) => item.value === roleList[0])?.label || '-'}
               </Typography>
               <Typography
                 sx={{
@@ -133,7 +130,8 @@ function PartnerCard({
               >
                 <LocationOnOutlinedIcon sx={{ marginRight: '10px' }} />{' '}
                 {LOCATION.find(
-                  (item) => item.alpha2 === location || item.alpha3 === location,
+                  (item) =>
+                    item.alpha2 === location || item.alpha3 === location,
                 )?.name || '-'}
               </Typography>
             </Box>

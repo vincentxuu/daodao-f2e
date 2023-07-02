@@ -1,8 +1,8 @@
 import React, { useMemo, useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
+import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
 import { useDispatch, useSelector } from 'react-redux';
-import { userUpdate } from '../../../redux/actions/user';
 import Script from 'next/script';
 import {
   Box,
@@ -20,7 +20,6 @@ import { LazyLoadImage } from 'react-lazy-load-image-component';
 import toast from 'react-hot-toast';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { getAuth, updateProfile } from 'firebase/auth';
-import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
 import {
   getFirestore,
   collection,
@@ -34,6 +33,7 @@ import {
 import dayjs from 'dayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { userUpdate } from '../../../redux/actions/user';
 import SEOConfig from '../../../shared/components/SEO';
 import Navigation from '../../../shared/components/Navigation_v2';
 import Footer from '../../../shared/components/Footer_v2';
@@ -45,7 +45,6 @@ import {
   CATEGORIES,
 } from '../../../constants/member';
 import COUNTIES from '../../../constants/countries.json';
-
 
 const HomePageWrapper = styled.div`
   --section-height: calc(100vh - 80px);
@@ -110,7 +109,6 @@ function EditPage() {
     setIsOpenLocation(user?.isOpenLocation || false);
     setIsOpenProfile(user?.isOpenProfile || false);
     setTagList(user?.tagList || []);
-
   }, [user]);
 
   const onUpdateUser = (successCallback) => {
@@ -134,9 +132,9 @@ function EditPage() {
     };
 
     setIsLoadingSubmit(true);
-    dispatch(userUpdate(payload))
+    dispatch(userUpdate(payload));
     setIsLoadingSubmit(false);
-    successCallback()
+    successCallback();
   };
 
   const SEOData = useMemo(
@@ -302,9 +300,9 @@ function EditPage() {
                           cursor: 'pointer',
                           ...(gender === value
                             ? {
-                              backgroundColor: '#DEF5F5',
-                              border: '1px solid #16B9B3',
-                            }
+                                backgroundColor: '#DEF5F5',
+                                border: '1px solid #16B9B3',
+                              }
                             : {}),
                         }}
                       >
@@ -358,9 +356,9 @@ function EditPage() {
                           cursor: 'pointer',
                           ...(roleList.includes(value)
                             ? {
-                              backgroundColor: '#DEF5F5',
-                              border: '1px solid #16B9B3',
-                            }
+                                backgroundColor: '#DEF5F5',
+                                border: '1px solid #16B9B3',
+                              }
                             : {}),
                           '@media (maxWidth: 767px)': {
                             width: '100%',
@@ -373,8 +371,8 @@ function EditPage() {
                             margin: 'auto',
                             ...(roleList.includes(value)
                               ? {
-                                fontWeight: 700,
-                              }
+                                  fontWeight: 700,
+                                }
                               : {}),
                           }}
                         >
@@ -418,9 +416,9 @@ function EditPage() {
                           cursor: 'pointer',
                           ...(roleList.includes(value)
                             ? {
-                              backgroundColor: '#DEF5F5',
-                              border: '1px solid #16B9B3',
-                            }
+                                backgroundColor: '#DEF5F5',
+                                border: '1px solid #16B9B3',
+                              }
                             : {}),
                           '@media (maxWidth: 767px)': {
                             width: '100%',
@@ -433,8 +431,8 @@ function EditPage() {
                             margin: 'auto',
                             ...(roleList.includes(value)
                               ? {
-                                fontWeight: 700,
-                              }
+                                  fontWeight: 700,
+                                }
                               : {}),
                           }}
                         >
@@ -508,9 +506,9 @@ function EditPage() {
                   <MenuItem disabled value="-1">
                     <em>請選擇居住地</em>
                   </MenuItem>
-                  {COUNTIES.map(({ name, alpha2 }) => (
+                  {COUNTIES.map(({ country, alpha2 }) => (
                     <MenuItem key={alpha2} value={alpha2}>
-                      {name}
+                      {country}
                     </MenuItem>
                   ))}
                 </Select>
@@ -565,9 +563,9 @@ function EditPage() {
                             cursor: 'pointer',
                             ...(wantToDoList.includes(value)
                               ? {
-                                backgroundColor: '#DEF5F5',
-                                border: '1px solid #16B9B3',
-                              }
+                                  backgroundColor: '#DEF5F5',
+                                  border: '1px solid #16B9B3',
+                                }
                               : {}),
                           }}
                         >
@@ -611,9 +609,9 @@ function EditPage() {
                             cursor: 'pointer',
                             ...(wantToDoList.includes(value)
                               ? {
-                                backgroundColor: '#DEF5F5',
-                                border: '1px solid #16B9B3',
-                              }
+                                  backgroundColor: '#DEF5F5',
+                                  border: '1px solid #16B9B3',
+                                }
                               : {}),
                           }}
                         >

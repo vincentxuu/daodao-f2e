@@ -1,12 +1,12 @@
 import React, { useMemo, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { googleLogin } from '../../redux/actions/user';
 import styled from '@emotion/styled';
 import Router, { useRouter } from 'next/router';
 import Script from 'next/script';
 import { Box, Typography, Button, Skeleton } from '@mui/material';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import toast from 'react-hot-toast';
+import { googleLogin } from '../../redux/actions/user';
 import SEOConfig from '../../shared/components/SEO';
 import Navigation from '../../shared/components/Navigation_v2';
 import Footer from '../../shared/components/Footer_v2';
@@ -59,7 +59,7 @@ const LoginPage = () => {
   const onLogin = () => {
     // const URL = `http://localhost:3000/auth/google`;
     // window.open(URL, "_self");
-    dispatch(googleLogin())
+    dispatch(googleLogin());
   };
 
   return (

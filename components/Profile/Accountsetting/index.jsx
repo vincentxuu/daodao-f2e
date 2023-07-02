@@ -29,14 +29,14 @@ const AccountSetting = () => {
   const onUpdateUser = () => {
     const payload = {
       email: user.email,
-      isSubscribeEmail
+      isSubscribeEmail,
     };
-    dispatch(userUpdate(payload))
+    dispatch(userUpdate(payload));
   };
 
   const logout = async () => {
-    dispatch(userLogout())
-  }
+    dispatch(userLogout());
+  };
 
   useEffect(() => {
     setIsSubscribeEmail(user?.isSubscribeEmail || false);

@@ -113,8 +113,8 @@ const Search = () => {
         loadMoreButtonRef={loadMoreButtonRef}
         isLoading={isLoading}
         isLoadingNextData={isLoadingNextData}
-      // isError={isError}
-      // errorMessage={errorMessage}
+        // isError={isError}
+        // errorMessage={errorMessage}
       />
       <ScrollToTop />
     </SearchWrapper>

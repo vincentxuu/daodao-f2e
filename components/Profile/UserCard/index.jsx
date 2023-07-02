@@ -4,10 +4,9 @@ import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import moment from 'moment/moment';
 import { useRouter } from 'next/router';
+import { useDispatch, useSelector } from 'react-redux';
 import LOCATION from '../../../constants/countries.json';
 import { EDUCATION_STAGE, ROLE } from '../../../constants/member';
-import { useDispatch, useSelector } from 'react-redux';
-
 
 const BottonEdit = {
   color: '#536166',
@@ -195,14 +194,11 @@ function UserCard({
               margin: '0px 0px 5px 8px ',
             }}
           >
-            {EDUCATION_STAGE.find(
-              (item) => item.value === user.educationStage
-            )?.label || '-'}
+            {EDUCATION_STAGE.find((item) => item.value === user.educationStage)
+              ?.label || '-'}
           </Button>
           <Typography component="p" sx={{ color: '#92989A' }}>
-            {ROLE.find(
-              (item) => item.value === user.roleList[0]
-            )?.label || '-'}
+            {ROLE.find((item) => item.value === user.roleList[0])?.label || '-'}
           </Typography>
           <Typography
             sx={{
@@ -214,7 +210,8 @@ function UserCard({
           >
             <LocationOnOutlinedIcon sx={{ marginRight: '10px' }} />{' '}
             {LOCATION.find(
-              (item) => item.alpha2 === user.location || item.alpha3 === user.location,
+              (item) =>
+                item.alpha2 === user.location || item.alpha3 === user.location,
             )?.name || '-'}
           </Typography>
         </Box>

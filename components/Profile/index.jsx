@@ -117,19 +117,9 @@ const Profile = () => {
           <ChevronLeftIcon />
           返回
         </Button>
-        <UserCard
-        // isLoading={isLoading}
-        // tagList={tagList}
-        // photoURL={photoURL}
-        // userName={userName}
-        // location={location}
-        />
+        <UserCard />
       </Box>
-      <UserTabs
-      // isLoading={isLoading}
-      // description={description}
-      // wantToLearnList={wantToLearnList}
-      />
+      <UserTabs />
       <Button
         sx={{
           width: '160px',
@@ -148,4 +138,4 @@ const Profile = () => {
   );
 };
 
-export default  Profile;
+export default Profile;

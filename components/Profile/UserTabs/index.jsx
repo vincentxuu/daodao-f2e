@@ -1,3 +1,4 @@
+import { useDispatch, useSelector } from 'react-redux';
 import { Box, Typography, Divider, Skeleton } from '@mui/material';
 import Tab from '@mui/material/Tab';
 import { TabContext } from '@mui/lab';
@@ -6,15 +7,8 @@ import TabPanel from '@mui/lab/TabPanel';
 import { useState } from 'react';
 import { WANT_TO_DO_WITH_PARTNER } from '../../../constants/member';
 import { mapToTable } from '../../../utils/helper';
-import { useDispatch, useSelector } from 'react-redux';
 
-
-
-const UserTabs = ({
-  description = '',
-  wantToLearnList = [],
-  isLoading = false,
-}) => {
+const UserTabs = ({ isLoading = false }) => {
   // console.log('description', description);
   // console.log('wantToLearnList', wantToLearnList);
 

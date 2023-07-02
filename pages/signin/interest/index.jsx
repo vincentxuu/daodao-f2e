@@ -33,6 +33,7 @@ import {
 import dayjs from 'dayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { useDispatch, useSelector } from 'react-redux';
 import SEOConfig from '../../../shared/components/SEO';
 import Navigation from '../../../shared/components/Navigation_v2';
 import Footer from '../../../shared/components/Footer_v2';
@@ -45,7 +46,6 @@ import {
 } from '../../../constants/member';
 import TipModal from '../../../components/Signin/Interest/TipModal';
 import COUNTIES from '../../../constants/countries.json';
-import { useDispatch, useSelector } from 'react-redux';
 import { userUpdate } from '../../../redux/actions/user';
 
 const HomePageWrapper = styled.div`
@@ -133,9 +133,9 @@ function EditPage() {
     };
 
     setIsLoadingSubmit(true);
-    dispatch(userUpdate(payload))
+    dispatch(userUpdate(payload));
     setIsLoadingSubmit(false);
-    successCallback()
+    successCallback();
   };
 
   const SEOData = useMemo(
@@ -240,9 +240,9 @@ function EditPage() {
                         cursor: 'pointer',
                         ...(interestList.includes(value)
                           ? {
-                            backgroundColor: '#DEF5F5',
-                            border: '1px solid #16B9B3',
-                          }
+                              backgroundColor: '#DEF5F5',
+                              border: '1px solid #16B9B3',
+                            }
                           : {}),
                         '@media (max-width: 767px)': {
                           height: '100% auto',
@@ -286,8 +286,8 @@ function EditPage() {
                           margin: 'auto',
                           ...(interestList.includes(value)
                             ? {
-                              fontWeight: 700,
-                            }
+                                fontWeight: 700,
+                              }
                             : {}),
                         }}
                       >

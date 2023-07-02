@@ -2,7 +2,6 @@ import React, { useMemo, useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
-import { userLogin, userUpdate } from '../../redux/actions/user';
 import Script from 'next/script';
 import {
   Box,
@@ -35,6 +34,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
+import { userLogin, userUpdate } from '../../redux/actions/user';
 import SEOConfig from '../../shared/components/SEO';
 import Navigation from '../../shared/components/Navigation_v2';
 import Footer from '../../shared/components/Footer_v2';
@@ -46,7 +46,6 @@ import {
   CATEGORIES,
 } from '../../constants/member';
 import COUNTIES from '../../constants/countries.json';
-
 
 const HomePageWrapper = styled.div`
   --section-height: calc(100vh - 80px);
@@ -84,7 +83,7 @@ function EditPage() {
   const [roleList, setRoleList] = useState([]);
   const dispatch = useDispatch();
   const { email } = useSelector((state) => state.user);
-  console.log("email:", email)
+  console.log('email:', email);
 
   // useEffect(() => {
   //   if (!isLoading) {
@@ -104,10 +103,10 @@ function EditPage() {
 
   useEffect(() => {
     setTimeout(() => {
-      dispatch(userLogin())
-      console.log("userLogin")
-    }, "2000")
-  }, [])
+      dispatch(userLogin());
+      console.log('userLogin');
+    }, '2000');
+  }, []);
 
   const onUpdateUser = (successCallback) => {
     const payload = {
@@ -120,9 +119,9 @@ function EditPage() {
     };
 
     setIsLoadingSubmit(true);
-    dispatch(userUpdate(payload))
+    dispatch(userUpdate(payload));
     setIsLoadingSubmit(false);
-    successCallback()
+    successCallback();
   };
   const SEOData = useMemo(
     () => ({
@@ -214,9 +213,9 @@ function EditPage() {
                           cursor: 'pointer',
                           ...(gender === value
                             ? {
-                              backgroundColor: '#DEF5F5',
-                              border: '1px solid #16B9B3',
-                            }
+                                backgroundColor: '#DEF5F5',
+                                border: '1px solid #16B9B3',
+                              }
                             : {}),
                         }}
                       >
@@ -271,9 +270,9 @@ function EditPage() {
                           cursor: 'pointer',
                           ...(roleList.includes(value)
                             ? {
-                              backgroundColor: '#DEF5F5',
-                              border: '1px solid #16B9B3',
-                            }
+                                backgroundColor: '#DEF5F5',
+                                border: '1px solid #16B9B3',
+                              }
                             : {}),
                           '@media (max-width: 767px)': {
                             height: '100% auto',
@@ -318,8 +317,8 @@ function EditPage() {
                             marginTop: '10px',
                             ...(roleList.includes(value)
                               ? {
-                                fontWeight: 700,
-                              }
+                                  fontWeight: 700,
+                                }
                               : {}),
                           }}
                         >

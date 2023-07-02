@@ -48,8 +48,6 @@ const LIST = [
   },
 ];
 
-
-
 function PartnerList() {
   const [list, setList] = useState([]);
 
@@ -58,26 +56,26 @@ function PartnerList() {
   const fetchData = () => {
     fetch(userURL, {
       method: 'GET',
-      credentials: "include",
+      credentials: 'include',
       headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Credentials": true,
-      }
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Credentials': true,
+      },
     })
       .then((res) => res.json())
-      .then(response => {
+      .then((response) => {
         console.log(response);
-        setList(response)
-      }).catch(err => {
-        console.log(err);
+        setList(response);
       })
-  }
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   useEffect(() => {
-    fetchData()
-  }, [])
-
+    fetchData();
+  }, []);
 
   return (
     <Box sx={{ minHeight: '100vh', padding: '5%' }}>
@@ -98,7 +96,7 @@ function PartnerList() {
             location,
             tagList,
             share,
-            wantToDoList
+            wantToDoList,
           }) => (
             <PartnerCard
               key={`${_id}-${name}`}
