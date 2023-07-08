@@ -4,8 +4,9 @@ import Link from 'next/link';
 import { Avatar, Box, IconButton, Menu, MenuItem } from '@mui/material';
 import { Group } from '@mui/icons-material';
 import { useRouter } from 'next/router';
-import { useDispatch, useSelector } from 'react-redux';
 import useFirebase from '../../../../../../hooks/useFirebase';
+import { useDispatch, useSelector } from 'react-redux';
+
 
 const UserAvatar = ({ onCloseMenu }) => {
   const { push } = useRouter();
@@ -13,7 +14,7 @@ const UserAvatar = ({ onCloseMenu }) => {
   const [isOpenMenu, setIsOpenMenu] = useState(null);
   const user = useSelector((state) => state.user);
 
-  if (user.email === '') {
+  if (user.initialState.email === '') {
     return (
       <IconButton
         sx={{ margin: '0 10px', fontSize: '16px', color: 'white' }}
@@ -24,71 +25,70 @@ const UserAvatar = ({ onCloseMenu }) => {
         <Group sx={{ fontSize: '30px' }} />
       </IconButton>
     );
-  } else {
-    return (
-      <IconButton
+  }
+  return (
+    <IconButton
+      sx={{
+        margin: '0 10px',
+        display: 'flex',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+      }}
+      onClick={() => {
+        onCloseMenu();
+        push('/profile');
+      }}
+    >
+      <Avatar
+        alt={user?.name ?? ''}
+        src={user?.photoURL ?? ''}
+        // onClick={(event) => setIsOpenMenu(event.currentTarget)}
+      />
+      <Box
         sx={{
-          margin: '0 10px',
           display: 'flex',
           justifyContent: 'flex-start',
           alignItems: 'center',
-        }}
-        onClick={() => {
-          onCloseMenu();
-          push('/profile');
+          marginLeft: '20px',
         }}
       >
-        <Avatar
-          alt={user?.name ?? ''}
-          src={user?.photoURL ?? ''}
-          // onClick={(event) => setIsOpenMenu(event.currentTarget)}
-        />
         <Box
           sx={{
-            display: 'flex',
-            justifyContent: 'flex-start',
-            alignItems: 'center',
-            marginLeft: '20px',
+            margin: '0 10px',
+            fontSize: '26px',
+            color: 'white',
+            fontWeight: '500',
           }}
         >
-          <Box
-            sx={{
-              margin: '0 10px',
-              fontSize: '26px',
-              color: 'white',
-              fontWeight: '500',
-            }}
-          >
-            Points: 0
-          </Box>
-          <img src="/assets/point.png" alt="point" width={26} height={26} />
+          Points: 0
         </Box>
-        {/* <Menu
-          id="user-menu"
-          anchorEl={isOpenMenu}
-          open={Boolean(isOpenMenu)}
-          onClose={() => setIsOpenMenu(false)}
+        <img src="/assets/point.png" alt="point" width={26} height={26} />
+      </Box>
+      {/* <Menu
+        id="user-menu"
+        anchorEl={isOpenMenu}
+        open={Boolean(isOpenMenu)}
+        onClose={() => setIsOpenMenu(false)}
+      >
+        <MenuItem
+          onClick={() => {
+            setIsOpenMenu(false);
+            push("/myisland");
+          }}
         >
-          <MenuItem
-            onClick={() => {
-              setIsOpenMenu(false);
-              push("/myisland");
-            }}
-          >
-            我的島島
-          </MenuItem>
-          <MenuItem
-            onClick={() => {
-              signOutWithFacebook();
-              setIsOpenMenu(false);
-            }}
-          >
-            登出
-          </MenuItem> */}
-        {/* </Menu> */}
-      </IconButton>
-    );
-  }
+          我的島島
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            signOutWithFacebook();
+            setIsOpenMenu(false);
+          }}
+        >
+          登出
+        </MenuItem> */}
+      {/* </Menu> */}
+    </IconButton>
+  );
 };
 
 export default UserAvatar;

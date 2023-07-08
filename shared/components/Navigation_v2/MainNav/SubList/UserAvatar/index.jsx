@@ -13,64 +13,70 @@ const UserAvatar = () => {
   const user = useSelector((state) => state.user);
 
   const [isOpenMenu, setIsOpenMenu] = useState(null);
-  if (user.email === '') {
-    return (
+
+  const clickHandler = () => {
+    console.log(user)
+    console.log(user.initialState.email)
+    if (user.initialState.email === '') {
+      push('/login');
+      console.log("login")
+    } else {
+      push('/profile');
+      console.log("profile")
+    }
+  };
+  // if (user.email === '') {
+  //   return (
+  //     <IconButton
+  //       sx={{ margin: '0 10px', fontSize: '16px', color: 'white' }}
+  //       onClick={clickHandler}
+  //     >
+  //       <Group sx={{ fontSize: '30px' }} />
+  //     </IconButton>
+  //   );
+  // }
+  return (
+    <>
       <IconButton
-        sx={{ margin: '0 10px', fontSize: '16px', color: 'white' }}
-        onClick={() => {
-          push('/login');
-        }}
+        onClick={clickHandler}
       >
-        <Group sx={{ fontSize: '30px' }} />
+        <Avatar alt={user?.name || ''} src={user?.photoURL || ''} />
       </IconButton>
-    );
-  } else {
-    return (
-      <>
-        <IconButton
+
+      {/* <Menu
+        id="user-menu"
+        anchorEl={isOpenMenu}
+        open={Boolean(isOpenMenu)}
+        onClose={() => setIsOpenMenu(false)}
+      >
+        <MenuItem
           onClick={() => {
             setIsOpenMenu(false);
             push('/profile');
           }}
         >
-          <Avatar alt={user?.name || ''} src={user?.photoURL || ''} />
-        </IconButton>
-
-        <Menu
-          id="user-menu"
-          anchorEl={isOpenMenu}
-          open={Boolean(isOpenMenu)}
-          onClose={() => setIsOpenMenu(false)}
+          個人頁面
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            setIsOpenMenu(false);
+            push('/profile');
+          }}
         >
-          <MenuItem
-            onClick={() => {
-              setIsOpenMenu(false);
-              push('/profile');
-            }}
-          >
-            個人頁面
-          </MenuItem>
-          <MenuItem
-            onClick={() => {
-              setIsOpenMenu(false);
-              push('/profile');
-            }}
-          >
-            帳號設定
-          </MenuItem>
-          <MenuItem
-            onClick={() => {
-              signOutWithGoogle();
-              push('/');
-              setIsOpenMenu(false);
-            }}
-          >
-            登出
-          </MenuItem>
-        </Menu>
-      </>
-    );
-  }
+          帳號設定
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            signOutWithGoogle();
+            push('/');
+            setIsOpenMenu(false);
+          }}
+        >
+          登出
+        </MenuItem>
+      </Menu> */}
+    </>
+  );
 };
 
 export default UserAvatar;
