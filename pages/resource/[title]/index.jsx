@@ -49,7 +49,10 @@ const ResourcePage = ({ data = {} }) => {
     [data?.properties],
   );
 
-  const videoLink = useMemo(() => data?.properties['影片']?.url, [data]);
+  const videoLink = useMemo(
+    () => data?.properties && data?.properties['影片']?.url,
+    [data?.properties],
+  );
 
   const link = useMemo(
     () =>
