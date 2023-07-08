@@ -45,7 +45,7 @@ const ResourcePage = ({ data = {} }) => {
     () =>
       data?.properties['費用']?.select
         ? [data?.properties['費用']?.select]
-        : [],
+        : [''],
     [data],
   );
 
