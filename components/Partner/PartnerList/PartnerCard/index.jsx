@@ -132,7 +132,7 @@ function PartnerCard({
                 {LOCATION.find(
                   (item) =>
                     item.alpha2 === location || item.alpha3 === location,
-                )?.name || '-'}
+                )?.country || '-'}
               </Typography>
             </Box>
           </Box>

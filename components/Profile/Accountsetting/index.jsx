@@ -36,6 +36,7 @@ const AccountSetting = () => {
 
   const logout = async () => {
     dispatch(userLogout());
+    push('/');
   };
 
   useEffect(() => {
@@ -121,7 +122,6 @@ const AccountSetting = () => {
             }}
             onClick={() => {
               logout();
-              // push('/');
             }}
           >
             登出

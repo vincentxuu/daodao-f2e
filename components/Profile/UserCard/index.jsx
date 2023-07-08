@@ -212,7 +212,7 @@ function UserCard({
             {LOCATION.find(
               (item) =>
                 item.alpha2 === user.location || item.alpha3 === user.location,
-            )?.name || '-'}
+            )?.country || '-'}
           </Typography>
         </Box>
       </Box>

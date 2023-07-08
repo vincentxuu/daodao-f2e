@@ -120,7 +120,7 @@ const Profile = () => {
         <UserCard />
       </Box>
       <UserTabs />
-      <Button
+      {/* <Button
         sx={{
           width: '160px',
           borderRadius: '20px',
@@ -133,7 +133,7 @@ const Profile = () => {
         onClick={() => setOpen(true)}
       >
         聯繫夥伴
-      </Button>
+      </Button> */}
     </Box>
   );
 };
