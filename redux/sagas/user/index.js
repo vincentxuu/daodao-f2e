@@ -55,18 +55,13 @@ function* userLogin() {
 }
 
 function* userLogout() {
-  const URL = `http://localhost:3000/user/logout`;
+  // const URL = `http://localhost:3000/user/logout`;
   try {
-    yield fetch(URL, {
-      method: 'GET',
-    }).then((res) => res.json());
+    // yield fetch(URL, {
+    //   method: 'GET',
+    // }).then((res) => res.json());
     yield put({
       type: 'USER_LOGOUT_SUCCESS',
-      payload: {
-        name: '',
-        email: '',
-        photoURL: '',
-      },
     });
   } catch (error) {
     yield put({ type: 'USER_LOGOUT_FAILURE', error });

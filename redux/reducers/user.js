@@ -38,8 +38,7 @@ const reducer = (state = initialState, action) => {
     }
     case 'USER_LOGOUT_SUCCESS': {
       return {
-        ...state,
-        ...action.payload,
+        initialState
       };
     }
     case 'USER_UPDATE_SUCCESS': {

@@ -22,6 +22,7 @@ const TypographyStyle = {
 
 const AccountSetting = () => {
   const { push } = useRouter();
+  const router = useRouter();
   const dispatch = useDispatch();
   const [isSubscribeEmail, setIsSubscribeEmail] = useState(false);
   const user = useSelector((state) => state.user);
@@ -36,6 +37,7 @@ const AccountSetting = () => {
 
   const logout = async () => {
     dispatch(userLogout());
+    router.push("/")
   };
 
   useEffect(() => {
