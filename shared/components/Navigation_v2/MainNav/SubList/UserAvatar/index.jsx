@@ -15,14 +15,14 @@ const UserAvatar = () => {
   const [isOpenMenu, setIsOpenMenu] = useState(null);
 
   const clickHandler = () => {
-    console.log(user)
-    console.log(user.initialState.email)
-    if (user.initialState.email === '') {
-      push('/login');
-      console.log("login")
-    } else {
+    console.log("UserAvatar:",user);
+    console.log("user?.email:",user?.email)
+    if (user?.email) {
       push('/profile');
-      console.log("profile")
+      console.log('profile');
+    } else {
+      push('/login');
+      console.log('login');
     }
   };
   // if (user.email === '') {
@@ -37,9 +37,7 @@ const UserAvatar = () => {
   // }
   return (
     <>
-      <IconButton
-        onClick={clickHandler}
-      >
+      <IconButton onClick={clickHandler}>
         <Avatar alt={user?.name || ''} src={user?.photoURL || ''} />
       </IconButton>
 
