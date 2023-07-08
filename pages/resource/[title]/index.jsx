@@ -43,7 +43,7 @@ const ResourcePage = ({ data = {} }) => {
 
   const feeTags = useMemo(
     () =>
-      data?.properties['費用']?.select
+      data?.properties && data?.properties['費用']?.select
         ? [data?.properties['費用']?.select]
         : [],
     [data?.properties],
