@@ -45,8 +45,8 @@ const ResourcePage = ({ data = {} }) => {
     () =>
       data?.properties['費用']?.select
         ? [data?.properties['費用']?.select]
-        : [''],
-    [data],
+        : [],
+    [data?.properties],
   );
 
   const videoLink = useMemo(() => data?.properties['影片']?.url, [data]);

@@ -14,11 +14,13 @@ const UserAvatar = ({ onCloseMenu }) => {
   const [isOpenMenu, setIsOpenMenu] = useState(null);
   const user = useSelector((state) => state.user);
 
-  if (!user) {
+  if (user.email === '') {
     return (
       <IconButton
         sx={{ margin: '0 10px', fontSize: '16px', color: 'white' }}
-        onClick={() => signInWithFacebook()}
+        onClick={() => {
+          push('/login');
+        }}
       >
         <Group sx={{ fontSize: '30px' }} />
       </IconButton>
