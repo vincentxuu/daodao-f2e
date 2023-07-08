@@ -4,9 +4,8 @@ import Link from 'next/link';
 import { Avatar, Box, IconButton, Menu, MenuItem } from '@mui/material';
 import { Group } from '@mui/icons-material';
 import { useRouter } from 'next/router';
-import useFirebase from '../../../../../../hooks/useFirebase';
 import { useDispatch, useSelector } from 'react-redux';
-
+import useFirebase from '../../../../../../hooks/useFirebase';
 
 const UserAvatar = () => {
   const { push } = useRouter();
@@ -25,55 +24,53 @@ const UserAvatar = () => {
         <Group sx={{ fontSize: '30px' }} />
       </IconButton>
     );
-  }
-  return (
-    <>
-      <IconButton
-        onClick={() => {
-          setIsOpenMenu(false);
-          push('/profile');
-        }}
-      >
-        <Avatar 
-          alt={user?.name || ''}
-          src={user?.photoURL || ''}
-        />
-      </IconButton>
+  } else {
+    return (
+      <>
+        <IconButton
+          onClick={() => {
+            setIsOpenMenu(false);
+            push('/profile');
+          }}
+        >
+          <Avatar alt={user?.name || ''} src={user?.photoURL || ''} />
+        </IconButton>
 
-      <Menu
-        id="user-menu"
-        anchorEl={isOpenMenu}
-        open={Boolean(isOpenMenu)}
-        onClose={() => setIsOpenMenu(false)}
-      >
-        <MenuItem
-          onClick={() => {
-            setIsOpenMenu(false);
-            push('/profile');
-          }}
+        <Menu
+          id="user-menu"
+          anchorEl={isOpenMenu}
+          open={Boolean(isOpenMenu)}
+          onClose={() => setIsOpenMenu(false)}
         >
-          個人頁面
-        </MenuItem>
-        <MenuItem
-          onClick={() => {
-            setIsOpenMenu(false);
-            push('/profile');
-          }}
-        >
-          帳號設定
-        </MenuItem>
-        <MenuItem
-          onClick={() => {
-            signOutWithGoogle();
-            push('/');
-            setIsOpenMenu(false);
-          }}
-        >
-          登出
-        </MenuItem>
-      </Menu>
-    </>
-  );
+          <MenuItem
+            onClick={() => {
+              setIsOpenMenu(false);
+              push('/profile');
+            }}
+          >
+            個人頁面
+          </MenuItem>
+          <MenuItem
+            onClick={() => {
+              setIsOpenMenu(false);
+              push('/profile');
+            }}
+          >
+            帳號設定
+          </MenuItem>
+          <MenuItem
+            onClick={() => {
+              signOutWithGoogle();
+              push('/');
+              setIsOpenMenu(false);
+            }}
+          >
+            登出
+          </MenuItem>
+        </Menu>
+      </>
+    );
+  }
 };
 
 export default UserAvatar;
