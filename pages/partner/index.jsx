@@ -6,6 +6,7 @@ import Partner from '../../components/Partner';
 import Navigation from '../../shared/components/Navigation_v2';
 import Footer from '../../shared/components/Footer_v2';
 
+
 const HomePageWrapper = styled.div`
   --section-height: calc(100vh - 80px);
   --section-height-offset: 80px;
@@ -14,6 +15,8 @@ const HomePageWrapper = styled.div`
 
 function PartnerPage() {
   const router = useRouter();
+  const { pathname } = router
+  console.log('PartnerPage',pathname)
   const SEOData = useMemo(
     () => ({
       title: '夥伴的島群列表｜島島阿學',

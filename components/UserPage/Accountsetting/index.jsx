@@ -37,7 +37,7 @@ const AccountSetting = () => {
 
   const logout = async () => {
     dispatch(userLogout());
-    router.push('/');
+    router.push("/")
   };
 
   useEffect(() => {
@@ -78,7 +78,7 @@ const AccountSetting = () => {
             {user.email}
           </Button>
         </Box>
-        {/* <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
           <Typography sx={TypographyStyle}>電話驗證</Typography>
           <Button
             variant="contained"
@@ -91,7 +91,7 @@ const AccountSetting = () => {
           >
             進行驗證
           </Button>
-        </Box> */}
+        </Box>
         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
           <Typography sx={TypographyStyle}>電子報</Typography>
           <FormControlLabel
@@ -115,23 +115,15 @@ const AccountSetting = () => {
         <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
           <Typography sx={TypographyStyle}>登出帳號</Typography>
           <Button
-            variant="outlined"
+            variant="contained"
             sx={{
               width: '100%',
               margin: '24px 0 30px 0',
-              color: '#1F4645',
               backgroundColor: 'white',
-              borderRadius: '20px',
-              borderColor: 'white',
-              boxShadow: '0px 4px 10px 0px rgba(196, 194, 193, 0.40)',
-              '&:hover': {
-                color: '#1F4645',
-                backgroundColor: '#DEF5F5',
-                borderColor: '#DEF5F5',
-              },
             }}
             onClick={() => {
               logout();
+              // push('/');
             }}
           >
             登出

@@ -1,18 +1,32 @@
 import React, { useRef } from 'react';
 import styled from '@emotion/styled';
-import { Box, Typography, Divider, Skeleton, Chip } from '@mui/material';
+import dayjs from 'dayjs';
+import 'dayjs/locale/zh-tw';
+import relativeTimePlugin from 'dayjs/plugin/relativeTime';
+import {
+  Box,
+  Typography,
+  Divider,
+  Skeleton,
+  Chip,
+  Button,
+  Link,
+} from '@mui/material';
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
+import { display } from '@mui/system';
 import {
   WANT_TO_DO_WITH_PARTNER,
   CATEGORIES,
+  EDUCATION_STAGE,
   ROLE,
 } from '../../../../constants/member';
 import { mapToTable } from '../../../../utils/helper';
 import LOCATION from '../../../../constants/countries.json';
 
+dayjs.extend(relativeTimePlugin);
+dayjs.locale('zh-tw');
 const WANT_TO_DO_WITH_PARTNER_TABLE = mapToTable(WANT_TO_DO_WITH_PARTNER);
-
 function Tag({ label }) {
   return (
     <Chip
@@ -37,7 +51,8 @@ function Tag({ label }) {
   );
 }
 function PartnerCard({
-  _id,
+  id,
+  date,
   name,
   image,
   photoURL,
@@ -46,6 +61,7 @@ function PartnerCard({
   tagList,
   share,
   wantToDoList,
+  educationStage,
 }) {
   return (
     <Box
@@ -60,109 +76,141 @@ function PartnerCard({
         },
       }}
     >
-      <Box>
+      <Link href={`/user/${id}`} underline="none">
         <Box>
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'flex-start',
-              alignItems: 'center',
-            }}
-          >
-            <LazyLoadImage
-              alt="login"
-              src={image}
-              height={50}
-              width={50}
-              effect="opacity"
-              style={{
-                borderRadius: '100%',
-                background: 'rgba(240, 240, 240, .8)',
-                objectFit: 'cover',
-                objectPosition: 'center',
-              }}
-              placeholder={
-                // eslint-disable-next-line react/jsx-wrap-multilines
-                <Skeleton
-                  sx={{
-                    height: '50px',
-                    width: '50px',
-                    background: 'rgba(240, 240, 240, .8)',
-                    marginTop: '4px',
-                  }}
-                  variant="circular"
-                  animation="wave"
-                />
-              }
-            />
-
+          <Box>
             <Box
               sx={{
-                marginLeft: '12px',
                 display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                alignItems: 'space-between',
-                height: '100%',
+                justifyContent: 'flex-start',
+                alignItems: 'center',
               }}
             >
-              <Typography
-                component="a"
-                href="/"
-                // href={`/partner/${id}`}
-                sx={{ color: '#536166', fontSize: '16px', fontWeight: 500 }}
-              >
-                {name}
-              </Typography>
-              <Typography
-                component="p"
-                sx={{ color: '#92989A', fontWeight: 400, fontSize: '14px' }}
-              >
-                {ROLE.find((item) => item.value === roleList[0])?.label || '-'}
-              </Typography>
-              <Typography
+              <LazyLoadImage
+                alt="login"
+                src={image}
+                height={50}
+                width={50}
+                effect="opacity"
+                style={{
+                  borderRadius: '100%',
+                  background: 'rgba(240, 240, 240, .8)',
+                  objectFit: 'cover',
+                  objectPosition: 'center',
+                }}
+                placeholder={
+                  // eslint-disable-next-line react/jsx-wrap-multilines
+                  <Skeleton
+                    sx={{
+                      height: '50px',
+                      width: '50px',
+                      background: 'rgba(240, 240, 240, .8)',
+                      marginTop: '4px',
+                    }}
+                    variant="circular"
+                    animation="wave"
+                  />
+                }
+              />
+
+              <Box
                 sx={{
+                  marginLeft: '12px',
                   display: 'flex',
-                  justifyContent: 'flex-start',
-                  alignItems: 'center',
-                  marginTop: '12px',
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                  alignItems: 'space-between',
+                  height: '100%',
                 }}
               >
-                <LocationOnOutlinedIcon sx={{ marginRight: '10px' }} />{' '}
-                {LOCATION.find(
-                  (item) =>
-                    item.alpha2 === location || item.alpha3 === location,
-                )?.name || '-'}
-              </Typography>
+                <Box sx={{ display: 'flex' }}>
+                  <Typography
+                    component="a"
+                    sx={{ color: '#536166', fontSize: '16px', fontWeight: 500 }}
+                  >
+                    {name}
+                  </Typography>
+                  <Button
+                    variant="contained"
+                    disabled
+                    size="small"
+                    sx={{
+                      height: '24px',
+                      fontSize: '14px',
+                      margin: '0px 0px 5px 8px ',
+                    }}
+                  >
+                    {EDUCATION_STAGE.find(
+                      (item) => item.value === educationStage,
+                    )?.label || '-'}
+                  </Button>
+                </Box>
+                <Typography
+                  component="p"
+                  sx={{ color: '#92989A', fontWeight: 400, fontSize: '14px' }}
+                >
+                  {ROLE.find((item) => item.value === roleList[0])?.label ||
+                    '-'}
+                </Typography>
+              </Box>
             </Box>
           </Box>
-          <Box sx={{ marginTop: '24px' }}>
-            {tagList.map((tag) => (
-              <Tag key={tag} label={tag} />
-            ))}
+          <Box sx={{ marginTop: '8px' }}>
+            <Box>
+              <Typography sx={{ color: '#293A3D', fontWeight: 500 }}>
+                可分享
+              </Typography>
+              <Typography sx={{ marginLeft: '12px', color: '#536166' }}>
+                {share || '-'}
+              </Typography>
+            </Box>
+            <Box>
+              <Typography sx={{ color: '#293A3D', fontWeight: 500 }}>
+                想一起
+              </Typography>
+              <Typography sx={{ marginLeft: '12px', color: '#536166' }}>
+                {wantToDoList
+                  .map((item) => mapToTable(WANT_TO_DO_WITH_PARTNER)[item])
+                  .join(', ') || '-'}
+              </Typography>
+              <Box sx={{ marginTop: '24px' }}>
+                {tagList.map((tag) => (
+                  <Tag key={tag} label={tag} />
+                ))}
+              </Box>
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}
+              >
+                <Typography
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'flex-start',
+                    alignItems: 'center',
+                    marginTop: '12px',
+                    fontSize: '12px',
+                  }}
+                >
+                  <LocationOnOutlinedIcon sx={{ marginRight: '10px' }} />{' '}
+                  {LOCATION.find(
+                    (item) =>
+                      item.alpha2 === location || item.alpha3 === location,
+                  )?.name || '-'}
+                </Typography>
+                <Typography
+                  component="p"
+                  sx={{ fontSize: '12px', color: '#92989A', marginTop: '5px' }}
+                >
+                  {dayjs(date).locale('zh-tw').fromNow()}
+                </Typography>
+              </Box>
+            </Box>
           </Box>
         </Box>
-        <Box sx={{ marginTop: '8px' }}>
-          <Box>
-            <Typography sx={{ color: '#293A3D', fontWeight: 500 }}>
-              可分享
-            </Typography>
-            <Typography sx={{ marginLeft: '12px', color: '#536166' }}>
-              {share || '-'}
-            </Typography>
-          </Box>
-          <Box>
-            <Typography sx={{ color: '#293A3D', fontWeight: 500 }}>
-              想一起
-            </Typography>
-            <Typography sx={{ marginLeft: '12px', color: '#536166' }}>
-              {wantToDoList
-                .map((item) => mapToTable(WANT_TO_DO_WITH_PARTNER)[item])
-                .join(', ') || '-'}
-            </Typography>
-          </Box>
-        </Box>
-      </Box>
+      </Link>
     </Box>
   );
 }

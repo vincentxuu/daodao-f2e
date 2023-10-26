@@ -9,6 +9,7 @@ import FormControl from '@mui/material/FormControl';
 import Chip from '@mui/material/Chip';
 import { SEARCH_TAGS } from '../../../constants/category';
 import SearchInput from './SearchInput';
+import SelectMenu from './SelectMenu';
 import HotTags from './HotTags';
 import AgeDropdown from './AgeDropdown';
 import FeeDropdown from './FeeDropdown';
@@ -37,11 +38,42 @@ const MenuProps = {
   },
 };
 
-const names = ['學齡前', '國小', '國高中', '大學以上'];
+const inputSelectMenu = [
+  {
+    names: [],
+    placeholder: '夥伴類型',
+  },
+];
 
-const SearchField = () => {
+
+
+
+const SearchField = ({ selectOptions, setSelectOptions }) => {
   // const { query } = useRouter();
   // const queryList = (query?.cats ?? '').split(',').reverse();
+
+  const handleUserChange = (string) => {
+    // user logic
+    setSelectOptions({
+      ...selectOptions,
+      user: string,
+    });
+  };
+  const handleAreaChange = (string) => {
+    // user logic
+    setSelectOptions({
+      ...selectOptions,
+      age: string,
+    });
+  };
+  const handleAgeChange = (string) => {
+    // user logic
+    setSelectOptions({
+      ...selectOptions,
+      age: string,
+    });
+  };
+
   return (
     <SearchFieldWrapper>
       <SearchInput />
@@ -59,9 +91,10 @@ const SearchField = () => {
           },
         }}
       >
+        <SelectMenu onChange={handleUserChange} />
+        <SelectMenu onChange={handleAreaChange} />
+        <SelectMenu onChange={handleAgeChange} />
         {/* <AgeDropdown /> */}
-        {/* <AgeCheckbox />
-        <FeeDropdown /> */}
       </Box>
     </SearchFieldWrapper>
   );

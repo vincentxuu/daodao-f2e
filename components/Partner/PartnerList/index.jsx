@@ -3,6 +3,9 @@ import styled from '@emotion/styled';
 import { Box, Typography, Divider, Skeleton } from '@mui/material';
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
+import dayjs from 'dayjs';
+import 'dayjs/locale/zh-tw';
+import relativeTimePlugin from 'dayjs/plugin/relativeTime';
 import PartnerCard from './PartnerCard';
 
 const LIST = [
@@ -48,33 +51,32 @@ const LIST = [
   },
 ];
 
-function PartnerList() {
-  const [list, setList] = useState([]);
+function PartnerList({ list }) {
+  // const [list, setList] = useState([]);
+  // const userURL = `http://localhost:4000/user/all_User`;
+  // const fetchData = () => {
+  //   fetch(userURL, {
+  //     method: 'GET',
+  //     credentials: 'include',
+  //     headers: {
+  //       Accept: 'application/json',
+  //       'Content-Type': 'application/json',
+  //       'Access-Control-Allow-Credentials': true,
+  //     },
+  //   })
+  //     .then((res) => res.json())
+  //     .then((response) => {
+  //       console.log(response);
+  //       setList(response);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // };
 
-  const userURL = `http://localhost:3000/user/all_User`;
-  const fetchData = () => {
-    fetch(userURL, {
-      method: 'GET',
-      credentials: 'include',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Credentials': true,
-      },
-    })
-      .then((res) => res.json())
-      .then((response) => {
-        console.log(response);
-        setList(response);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
+  // useEffect(() => {
+  //   fetchData();
+  // }, []);
 
   return (
     <Box sx={{ minHeight: '100vh', padding: '5%' }}>
@@ -89,6 +91,7 @@ function PartnerList() {
         {list.map(
           ({
             _id,
+            date,
             name,
             photoURL,
             roleList,
@@ -96,10 +99,12 @@ function PartnerList() {
             tagList,
             share,
             wantToDoList,
+            educationStage,
           }) => (
             <PartnerCard
               key={`${_id}-${name}`}
               id={_id}
+              date={date}
               image={photoURL}
               name={name}
               roleList={roleList}
@@ -107,6 +112,7 @@ function PartnerList() {
               tagList={tagList}
               share={share}
               wantToDoList={wantToDoList}
+              educationStage={educationStage}
             />
           ),
         )}

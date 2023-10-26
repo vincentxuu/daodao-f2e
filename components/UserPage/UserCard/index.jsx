@@ -2,11 +2,11 @@ import { Box, Button, Chip, Skeleton, Typography } from '@mui/material';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import { useRouter } from 'next/router';
+import { useDispatch, useSelector } from 'react-redux';
 import dayjs from 'dayjs';
 import 'dayjs/locale/zh-tw';
 import relativeTimePlugin from 'dayjs/plugin/relativeTime';
-import { useRouter } from 'next/router';
-import { useDispatch, useSelector } from 'react-redux';
 import LOCATION from '../../../constants/countries.json';
 import { EDUCATION_STAGE, ROLE } from '../../../constants/member';
 
@@ -55,72 +55,77 @@ function Tag({ label }) {
   );
 }
 function UserCard({
-  isLoading,
-  tagList,
-  educationStepLabel,
+  id,
+  date,
+  name,
   photoURL,
-  userName,
+  roleList,
   location,
+  tagList,
+  share,
+  wantToDoList,
+  educationStage,
 }) {
   const router = useRouter();
-  const user = useSelector((state) => state.user);
 
-  if (isLoading) {
-    return (
-      <Box
-        sx={{
-          width: '720px',
-          padding: '40px 30px ',
-          bgcolor: '#fff',
-          borderRadius: '20px',
-          '@media (max-width: 767px)': {
-            width: '316px',
-          },
-        }}
-      >
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'flex-start',
-            alignItems: 'center',
-          }}
-        >
-          <Skeleton
-            sx={{
-              height: '80px',
-              width: '80px',
-              background: 'rgba(240, 240, 240, .8)',
-              marginTop: '4px',
-            }}
-            variant="circular"
-            animation="wave"
-          />
-          <Button variant="outlined" sx={BottonEdit}>
-            <EditOutlinedIcon />
-            編輯
-          </Button>
-          <Box sx={{ marginLeft: '12px' }}>
-            <Skeleton variant="text" width={200} />
-            <Skeleton variant="text" width={200} />
-            <Typography
-              sx={{
-                display: 'flex',
-                justifyContent: 'flex-start',
-                alignItems: 'center',
-                marginTop: '12px',
-              }}
-            >
-              <LocationOnOutlinedIcon sx={{ marginRight: '10px' }} />{' '}
-              <Skeleton variant="text" width={200} />
-            </Typography>
-          </Box>
-        </Box>
-        <Box sx={{ marginTop: '24px' }}>
-          <Skeleton variant="text" width={200} />
-        </Box>
-      </Box>
-    );
-  }
+  // const user = useSelector((state) => state.user);
+
+  // if (isLoading) {
+  //   return (
+  //     <Box
+  //       sx={{
+  //         width: '720px',
+  //         padding: '40px 30px ',
+  //         bgcolor: '#fff',
+  //         borderRadius: '20px',
+  //         '@media (max-width: 767px)': {
+  //           width: '316px',
+  //         },
+  //       }}
+  //     >
+  //       <Box
+  //         sx={{
+  //           display: 'flex',
+  //           justifyContent: 'flex-start',
+  //           alignItems: 'center',
+  //         }}
+  //       >
+  //         <Skeleton
+  //           sx={{
+  //             height: '80px',
+  //             width: '80px',
+  //             background: 'rgba(240, 240, 240, .8)',
+  //             marginTop: '4px',
+  //           }}
+  //           variant="circular"
+  //           animation="wave"
+  //         />
+  //         <Button variant="outlined" sx={BottonEdit}>
+  //           <EditOutlinedIcon />
+  //           編輯
+  //         </Button>
+  //         <Box sx={{ marginLeft: '12px' }}>
+  //           <Skeleton variant="text" width={200} />
+  //           <Skeleton variant="text" width={200} />
+  //           <Typography
+  //             sx={{
+  //               display: 'flex',
+  //               justifyContent: 'flex-start',
+  //               alignItems: 'center',
+  //               marginTop: '12px',
+  //             }}
+  //           >
+  //             <LocationOnOutlinedIcon sx={{ marginRight: '10px' }} />{' '}
+  //             <Skeleton variant="text" width={200} />
+  //           </Typography>
+  //         </Box>
+  //       </Box>
+  //       <Box sx={{ marginTop: '24px' }}>
+  //         <Skeleton variant="text" width={200} />
+  //       </Box>
+  //     </Box>
+  //   );
+  // }
   return (
     <Box
       sx={{
@@ -142,7 +147,7 @@ function UserCard({
       >
         <LazyLoadImage
           alt="login"
-          src={user?.photoURL || ''}
+          src={photoURL || ''}
           height={80}
           width={80}
           effect="opacity"
@@ -168,16 +173,6 @@ function UserCard({
             />
           }
         />
-        <Button
-          variant="outlined"
-          sx={BottonEdit}
-          onClick={() => {
-            router.push('/profile');
-          }}
-        >
-          <EditOutlinedIcon />
-          編輯
-        </Button>
         <Box sx={{ marginLeft: '12px' }}>
           <Typography
             sx={{
@@ -186,7 +181,7 @@ function UserCard({
               margin: '10px 8px 0px 0px ',
             }}
           >
-            {user?.name || '-'}
+            {name || '-'}
           </Typography>
           <Button
             variant="contained"
@@ -198,12 +193,11 @@ function UserCard({
               margin: '0px 0px 5px 8px ',
             }}
           >
-            {EDUCATION_STAGE.find((item) => item.value === user?.educationStage)
+            {EDUCATION_STAGE.find((item) => item.value === educationStage)
               ?.label || '-'}
           </Button>
           <Typography component="p" sx={{ color: '#92989A' }}>
-            {ROLE.find((item) => item.value === user?.roleList?.[0])?.label ||
-              '-'}
+            {ROLE.find((item) => item.value === roleList?.[0])?.label || '-'}
           </Typography>
           <Typography
             sx={{
@@ -215,8 +209,7 @@ function UserCard({
           >
             <LocationOnOutlinedIcon sx={{ marginRight: '10px' }} />{' '}
             {LOCATION.find(
-              (item) =>
-                item.alpha2 === user?.location || item.alpha3 === user?.location,
+              (item) => item.alpha2 === location || item.alpha3 === location,
             )?.name || '-'}
           </Typography>
         </Box>
@@ -234,7 +227,7 @@ function UserCard({
             '@media (max-width: 767px)': { display: 'flex', flexFlow: 'wrap' },
           }}
         >
-          {user?.tagList?.map((tag) => (
+          {tagList?.map((tag) => (
             <Tag key={tag} label={tag} />
           ))}
         </Box>
@@ -242,8 +235,7 @@ function UserCard({
           component="p"
           sx={{ fontSize: '12px', color: '#92989A', marginTop: '5px' }}
         >
-          {dayjs(user?.date).locale('zh-tw').fromNow()}
-          {/* {user.date} */}
+          {dayjs(date).locale('zh-tw').fromNow()}
         </Typography>
       </Box>
     </Box>

@@ -15,6 +15,7 @@ import {
   TextareaAutosize,
   MenuItem,
   Select,
+  FormControl,
 } from '@mui/material';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import toast from 'react-hot-toast';
@@ -465,12 +466,13 @@ function EditPage() {
                 <Typography>教育階段</Typography>
                 <Select
                   labelId="education-stage"
+                  displayEmpty
+                  defaultValue="請選擇您或孩子目前的教育階段"
                   id="education-stage"
                   value={educationStage}
                   onChange={(event) => {
                     setEducationStage(event.target.value);
                   }}
-                  // placeholder="請選擇您或孩子目前的教育階段"
                   sx={{ width: '100%' }}
                 >
                   <MenuItem disabled value="-1">
@@ -500,10 +502,10 @@ function EditPage() {
                   onChange={(event) => {
                     setLocation(event.target.value);
                   }}
-                  // placeholder="請選擇您或孩子目前的教育階段"
+                  // label="請選擇您或孩子目前的教育階段"
                   sx={{ width: '100%' }}
                 >
-                  <MenuItem disabled value="-1">
+                  <MenuItem value="">
                     <em>請選擇居住地</em>
                   </MenuItem>
                   {COUNTIES.map(({ country, alpha2 }) => (
@@ -790,11 +792,16 @@ function EditPage() {
                   width: '100%',
                   height: '40px',
                   borderRadius: '20px',
-                  color: '#ffff',
-                  bgcolor: '#16B9B3',
+                  borderColor: '#16B9B3',
+                  color: '#536166',
                   mr: '8px',
+                  '&:hover': {
+                    color: '#FFFFFF',
+                    background: '#16B9B3',
+                    border: 'none',
+                  },
                 }}
-                variant="contained"
+                variant="outlined"
                 onClick={() => {
                   router.push('/profile/myprofile');
                 }}
@@ -806,7 +813,15 @@ function EditPage() {
                   width: '100%',
                   height: '40px',
                   borderRadius: '20px',
+                  color: '#ffff',
+                  bgcolor: '#16B9B3',
                   ml: '8px',
+                  border: 'none',
+                  '&:hover': {
+                    background: '#89DAD7',
+                    border: 'none',
+                    boxShadow: '0px 4px 10px 0px rgba(89, 182, 178, 0.50)',
+                  },
                 }}
                 variant="outlined"
                 disabled={isLoadingSubmit}

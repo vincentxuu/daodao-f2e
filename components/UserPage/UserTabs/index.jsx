@@ -8,7 +8,13 @@ import { useState } from 'react';
 import { WANT_TO_DO_WITH_PARTNER } from '../../../constants/member';
 import { mapToTable } from '../../../utils/helper';
 
-const UserTabs = ({ isLoading = false }) => {
+const UserTabs = ({
+  isLoading = false,
+  contactInformationList,
+  selfIntroduction,
+  share,
+  wantToDoList,
+}) => {
   // console.log('description', description);
   // console.log('wantToLearnList', wantToLearnList);
 
@@ -239,7 +245,7 @@ const UserTabs = ({ isLoading = false }) => {
                 可分享
               </Typography>
               <Typography sx={{ marginLeft: '12px' }}>
-                {user?.share || '-'}
+                {share || '-'}
               </Typography>
             </Box>
             <Divider sx={{ color: '#F3F3F3', margin: '6px 0' }} />
@@ -248,7 +254,7 @@ const UserTabs = ({ isLoading = false }) => {
                 想一起
               </Typography>
               <Typography sx={{ marginLeft: '12px' }}>
-                {user?.wantToDoList
+                {wantToDoList
                   ?.map((item) => mapToTable(WANT_TO_DO_WITH_PARTNER)[item])
                   .join(', ') || '-'}
               </Typography>
@@ -259,7 +265,7 @@ const UserTabs = ({ isLoading = false }) => {
                 社群軟體
               </Typography>
               <Typography sx={{ marginLeft: '12px' }}>
-                {user?.contactInformationList?.[0] || '-'}
+                {contactInformationList?.[0] || '-'}
               </Typography>
             </Box>
             <Divider sx={{ color: '#F3F3F3', margin: '6px 0' }} />
@@ -268,7 +274,7 @@ const UserTabs = ({ isLoading = false }) => {
                 簡介
               </Typography>
               <Typography component="p" sx={{}}>
-                {user?.selfIntroduction || '-'}
+                {selfIntroduction || '-'}
               </Typography>
             </Box>
           </Box>

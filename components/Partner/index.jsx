@@ -1,17 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import { Box, Typography, Button } from '@mui/material';
-import { useAuthState } from 'react-firebase-hooks/auth';
-import { getAuth, updateProfile } from 'firebase/auth';
 import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
-import {
-  getFirestore,
-  collection,
-  getDocs,
-  getDoc,
-  setDoc,
-  addDoc,
-} from 'firebase/firestore';
 import { useRouter } from 'next/router';
 import PartnerList from './PartnerList';
 import SearchField from './SearchField';
@@ -26,44 +16,41 @@ const PartnerWrapper = styled.div`
 `;
 
 function Partner() {
-  const router = useRouter();
+  const [seclectOptions, setSelectOptions] = useState({
+    user: '',
+    age: 18,
+  });
   const [partnerList, setPartnerList] = useState([]);
-  // useEffect(() => {
-  //   const db = getFirestore();
-  //   const colRef = collection(db, 'partnerlist');
-  //   getDocs(colRef).then((docsSnap) => {
-  //     docsSnap.forEach((doc) => {
-  //       setPartnerList((prevState) => [
-  //         ...prevState,
-  //         {
-  //           id: doc.id,
-  //           ...(doc.data() || {}),
-  //         },
-  //       ]);
-  //       console.log(doc.id, ' => ', doc.data());
-  //     });
-  //   });
-  // const test = collection('partnerlist').
-  // console.log('test', test);
-  // const docRef = doc(db, 'partnerlist', user?.uid);
-  // getDoc(docRef).then((docSnap) => {
-  //   const data = docSnap.data();
-  //   setUserName(data?.userName || '');
-  //   setPhotoURL(data?.photoURL || '');
-  //   setBirthDay(dayjs(data?.birthDay) || dayjs());
-  //   setGender(data?.gender || '');
-  //   setRoleList(data?.roleList || []);
-  //   setWantToLearnList(data?.wantToLearnList || []);
-  //   setInterestAreaList(data?.interestAreaList || []);
-  //   setEducationStep(data?.educationStep);
-  //   setLocation(data?.location || '');
-  //   setUrl(data?.url || '');
-  //   setDescription(data?.description || '');
-  //   setIsOpenLocation(data?.isOpenLocation || false);
-  //   setIsOpenProfile(data?.isOpenProfile || false);
-  // });
-  // }, [setPartnerList]);
-  // console.log('partnerList', partnerList);
+
+  const baseUrl = `http://localhost:4000/user/all_User`;
+
+  const fetchData = () => {
+    const url = `${baseUrl}?`;
+    // http://localhost:4000/user/all_User?user=''&age=18;
+
+    fetch(url, {
+      method: 'GET',
+      credentials: 'include',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Credentials': true,
+      },
+    })
+      .then((res) => res.json())
+      .then((response) => {
+        console.log(response);
+        setPartnerList(response);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, [seclectOptions]);
+
   return (
     <>
       <Banner />
@@ -93,7 +80,7 @@ function Partner() {
               background: '#fff',
             }}
           >
-            <PartnerList list={partnerList} />
+            <PartnerList list={partnerList} setPartnerList={setPartnerList} />
           </Box>
         </Box>
       </PartnerWrapper>

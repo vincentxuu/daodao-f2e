@@ -46,8 +46,8 @@ const AgeDropdown = () => {
     }
   };
   return (
-    <FormControl sx={{ m: 1, minWidth: 150 }}>
-      <InputLabel id="demo-multiple-chip-label">年齡層</InputLabel>
+    <FormControl sx={{ m: 1, minWidth: 160, minHeight: 36 }}>
+      <InputLabel id="demo-multiple-chip-label">夥伴類型</InputLabel>
       <Select
         multiple
         autoWidth
